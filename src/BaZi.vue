@@ -1,59 +1,59 @@
 <template>
     <!--  干支  -->
-    <el-row justify="center">
+    <el-row justify="center" style="color: #cccccc">
         <el-col :xs="6" :sm="6" :lg="4" :xl="2">
-            <p class="nmlFont" :style="'color:'+wuXingColor[wuXingMap[nianGan]]" @click="buttonDialogVisible=true">{{riGan && nianGan ? shiShen[riGan][nianGan] : '年'}}</p>
-            <p class="bigFont" :style="'color:'+wuXingColor[wuXingMap[nianGan]]" @click="dialogMark=1; dialogOptions=gan; dialogVisible=true">{{nianGan || '干'}}</p>
-            <p class="bigFont" :style="'color:'+wuXingColor[wuXingMap[nianZhi]]" @click="dialogMark=2; dialogOptions=yangGan.indexOf(nianGan)>=0?yangZhi:yinZhi; nianGan&&(dialogVisible=true)">{{nianZhi || '支'}}</p>
-            <p class="smlFont" :style="'color:'+wuXingColor[wuXingMap[i]]" v-for="i in cangGan[nianZhi] || []">{{i + (riGan ? ' · '+shiShen[riGan][i] : '')}}</p>
+            <p class="nmlFont" :style="'color:'+WU_XING_COLOR[WU_XING_MAP[nianGan]]" @click="buttonDialogVisible=true">{{riGan && nianGan ? SHI_SHEN_MAP[riGan][nianGan] : '年'}}</p>
+            <p class="bigFont" :style="'color:'+WU_XING_COLOR[WU_XING_MAP[nianGan]]" @click="dialogMark=1; dialogOptions=TIAN_GAN; dialogVisible=true">{{nianGan || '干'}}</p>
+            <p class="bigFont" :style="'color:'+WU_XING_COLOR[WU_XING_MAP[nianZhi]]" @click="dialogMark=2; dialogOptions=YANG_GAN.indexOf(nianGan)>=0?YANG_ZHI:YIN_ZHI; nianGan&&(dialogVisible=true)">{{nianZhi || '支'}}</p>
+            <p class="smlFont" :style="'color:'+WU_XING_COLOR[WU_XING_MAP[i]]" v-for="i in CANG_GAN[nianZhi] || []">{{i + (riGan ? ' · '+SHI_SHEN_MAP[riGan][i] : '')}}</p>
         </el-col>
         <el-col :xs="6" :sm="6" :lg="4" :xl="2">
-            <p class="nmlFont" :style="'color:'+wuXingColor[wuXingMap[yueGan]]" @click="buttonDialogVisible=true">{{riGan && yueGan ? shiShen[riGan][yueGan] : '月'}}</p>
-            <p class="bigFont" :style="'color:'+wuXingColor[wuXingMap[yueGan]]" @click="dialogMark=3; dialogOptions=gan; dialogVisible=true">{{yueGan || '干'}}</p>
-            <p class="bigFont" :style="'color:'+wuXingColor[wuXingMap[yueZhi]]" @click="dialogMark=4; dialogOptions=yangGan.indexOf(yueGan)>=0?yangZhi:yinZhi; yueGan&&(dialogVisible=true)">{{yueZhi || '支'}}</p>
-            <p class="smlFont" :style="'color:'+wuXingColor[wuXingMap[i]]" v-for="i in cangGan[yueZhi] || []">{{i + (riGan ? ' · '+shiShen[riGan][i] : '')}}</p>
+            <p class="nmlFont" :style="'color:'+WU_XING_COLOR[WU_XING_MAP[yueGan]]" @click="buttonDialogVisible=true">{{riGan && yueGan ? SHI_SHEN_MAP[riGan][yueGan] : '月'}}</p>
+            <p class="bigFont" :style="'color:'+WU_XING_COLOR[WU_XING_MAP[yueGan]]" @click="dialogMark=3; dialogOptions=TIAN_GAN; dialogVisible=true">{{yueGan || '干'}}</p>
+            <p class="bigFont" :style="'color:'+WU_XING_COLOR[WU_XING_MAP[yueZhi]]" @click="dialogMark=4; dialogOptions=YANG_GAN.indexOf(yueGan)>=0?YANG_ZHI:YIN_ZHI; yueGan&&(dialogVisible=true)">{{yueZhi || '支'}}</p>
+            <p class="smlFont" :style="'color:'+WU_XING_COLOR[WU_XING_MAP[i]]" v-for="i in CANG_GAN[yueZhi] || []">{{i + (riGan ? ' · '+SHI_SHEN_MAP[riGan][i] : '')}}</p>
         </el-col>
         <el-col :xs="6" :sm="6" :lg="4" :xl="2">
-            <p class="nmlFont" :style="'color:'+wuXingColor[riGan&&'日主']" @click="buttonDialogVisible=true">日主</p>
-            <p class="bigFont" :style="'color:'+wuXingColor[wuXingMap[riGan]]" @click="dialogMark=5; dialogOptions=gan; dialogVisible=true">{{riGan || '干'}}</p>
-            <p class="bigFont" :style="'color:'+wuXingColor[wuXingMap[riZhi]]" @click="dialogMark=6; dialogOptions=yangGan.indexOf(riGan)>=0?yangZhi:yinZhi; riGan&&(dialogVisible=true)">{{riZhi || '支'}}</p>
-            <p class="smlFont" :style="'color:'+wuXingColor[wuXingMap[i]]" v-for="i in cangGan[riZhi] || []">{{i + (riGan ? ' · '+shiShen[riGan][i] : '')}}</p>
+            <p class="nmlFont" :style="'color:'+(riGan&&'#555555')" @click="buttonDialogVisible=true">日主</p>
+            <p class="bigFont" :style="'color:'+WU_XING_COLOR[WU_XING_MAP[riGan]]" @click="dialogMark=5; dialogOptions=TIAN_GAN; dialogVisible=true">{{riGan || '干'}}</p>
+            <p class="bigFont" :style="'color:'+WU_XING_COLOR[WU_XING_MAP[riZhi]]" @click="dialogMark=6; dialogOptions=YANG_GAN.indexOf(riGan)>=0?YANG_ZHI:YIN_ZHI; riGan&&(dialogVisible=true)">{{riZhi || '支'}}</p>
+            <p class="smlFont" :style="'color:'+WU_XING_COLOR[WU_XING_MAP[i]]" v-for="i in CANG_GAN[riZhi] || []">{{i + (riGan ? ' · '+SHI_SHEN_MAP[riGan][i] : '')}}</p>
         </el-col>
         <el-col :xs="6" :sm="6" :lg="4" :xl="2">
-            <p class="nmlFont" :style="'color:'+wuXingColor[wuXingMap[shiGan]]" @click="buttonDialogVisible=true">{{riGan && shiGan ? shiShen[riGan][shiGan] : '时'}}</p>
-            <p class="bigFont" :style="'color:'+wuXingColor[wuXingMap[shiGan]]" @click="dialogMark=7; dialogOptions=gan; dialogVisible=true">{{shiGan || '干'}}</p>
-            <p class="bigFont" :style="'color:'+wuXingColor[wuXingMap[shiZhi]]" @click="dialogMark=8; dialogOptions=yangGan.indexOf(shiGan)>=0?yangZhi:yinZhi; shiGan&&(dialogVisible=true)">{{shiZhi || '支'}}</p>
-            <p class="smlFont" :style="'color:'+wuXingColor[wuXingMap[i]]" v-for="i in cangGan[shiZhi] || []">{{i + (riGan ? ' · '+shiShen[riGan][i] : '')}}</p>
+            <p class="nmlFont" :style="'color:'+WU_XING_COLOR[WU_XING_MAP[shiGan]]" @click="buttonDialogVisible=true">{{riGan && shiGan ? SHI_SHEN_MAP[riGan][shiGan] : '时'}}</p>
+            <p class="bigFont" :style="'color:'+WU_XING_COLOR[WU_XING_MAP[shiGan]]" @click="dialogMark=7; dialogOptions=TIAN_GAN; dialogVisible=true">{{shiGan || '干'}}</p>
+            <p class="bigFont" :style="'color:'+WU_XING_COLOR[WU_XING_MAP[shiZhi]]" @click="dialogMark=8; dialogOptions=YANG_GAN.indexOf(shiGan)>=0?YANG_ZHI:YIN_ZHI; shiGan&&(dialogVisible=true)">{{shiZhi || '支'}}</p>
+            <p class="smlFont" :style="'color:'+WU_XING_COLOR[WU_XING_MAP[i]]" v-for="i in CANG_GAN[shiZhi] || []">{{i + (riGan ? ' · '+SHI_SHEN_MAP[riGan][i] : '')}}</p>
         </el-col>
     </el-row>
     <!--  长生 & 空亡 & 纳音  -->
     <el-row justify="center" style="margin-top:20px">
         <el-col :xs="6" :sm="6" :lg="4" :xl="2">
-            <p class="smlFont" v-if="riGan&&nianZhi" style="color:#555555">{{changSheng[riGan][nianZhi]}}</p>
-            <p class="smlFont" v-if="nianGan&&nianZhi" style="color:#555555">{{kongWang[nianGan][nianZhi]}}</p>
-            <p class="smlFont" v-if="nianGan&&nianZhi" :style="'color:'+wuXingColor[naYin[nianGan][nianZhi][2]]">{{naYin[nianGan][nianZhi]}}</p>
+            <p class="smlFont" v-if="riGan&&nianZhi" style="color:#555555">{{CHANG_SHENG_MAP[riGan][nianZhi]}}</p>
+            <p class="smlFont" v-if="nianGan&&nianZhi" style="color:#555555">{{KONG_WANG_MAP[nianGan][nianZhi] + '空'}}</p>
+            <p class="smlFont" v-if="nianGan&&nianZhi" :style="'color:'+WU_XING_COLOR[NA_YIN_MAP[nianGan][nianZhi][2]]">{{NA_YIN_MAP[nianGan][nianZhi]}}</p>
         </el-col>
         <el-col :xs="6" :sm="6" :lg="4" :xl="2">
-            <p class="smlFont" v-if="riGan&&yueZhi" style="color:#555555">{{changSheng[riGan][yueZhi]}}</p>
-            <p class="smlFont" v-if="yueGan&&yueZhi" style="color:#555555">{{kongWang[yueGan][yueZhi]}}</p>
-            <p class="smlFont" v-if="yueGan&&yueZhi" :style="'color:'+wuXingColor[naYin[yueGan][yueZhi][2]]">{{naYin[yueGan][yueZhi]}}</p>
+            <p class="smlFont" v-if="riGan&&yueZhi" style="color:#555555">{{CHANG_SHENG_MAP[riGan][yueZhi]}}</p>
+            <p class="smlFont" v-if="yueGan&&yueZhi" style="color:#555555">{{KONG_WANG_MAP[yueGan][yueZhi] + '空'}}</p>
+            <p class="smlFont" v-if="yueGan&&yueZhi" :style="'color:'+WU_XING_COLOR[NA_YIN_MAP[yueGan][yueZhi][2]]">{{NA_YIN_MAP[yueGan][yueZhi]}}</p>
         </el-col>
         <el-col :xs="6" :sm="6" :lg="4" :xl="2">
-            <p class="smlFont" v-if="riGan&&riZhi" style="color:#555555">{{changSheng[riGan][riZhi]}}</p>
-            <p class="smlFont" v-if="riGan&&riZhi" style="color:#555555">{{kongWang[riGan][riZhi]}}</p>
-            <p class="smlFont" v-if="riGan&&riZhi" :style="'color:'+wuXingColor[naYin[riGan][riZhi][2]]">{{naYin[riGan][riZhi]}}</p>
+            <p class="smlFont" v-if="riGan&&riZhi" style="color:#555555">{{CHANG_SHENG_MAP[riGan][riZhi]}}</p>
+            <p class="smlFont" v-if="riGan&&riZhi" style="color:#555555">{{KONG_WANG_MAP[riGan][riZhi] + '空'}}</p>
+            <p class="smlFont" v-if="riGan&&riZhi" :style="'color:'+WU_XING_COLOR[NA_YIN_MAP[riGan][riZhi][2]]">{{NA_YIN_MAP[riGan][riZhi]}}</p>
         </el-col>
         <el-col :xs="6" :sm="6" :lg="4" :xl="2">
-            <p class="smlFont" v-if="riGan&&shiZhi" style="color:#555555">{{changSheng[riGan][shiZhi]}}</p>
-            <p class="smlFont" v-if="shiGan&&shiZhi" style="color:#555555">{{kongWang[shiGan][shiZhi]}}</p>
-            <p class="smlFont" v-if="shiGan&&shiZhi" :style="'color:'+wuXingColor[naYin[shiGan][shiZhi][2]]">{{naYin[shiGan][shiZhi]}}</p>
+            <p class="smlFont" v-if="riGan&&shiZhi" style="color:#555555">{{CHANG_SHENG_MAP[riGan][shiZhi]}}</p>
+            <p class="smlFont" v-if="shiGan&&shiZhi" style="color:#555555">{{KONG_WANG_MAP[shiGan][shiZhi] + '空'}}</p>
+            <p class="smlFont" v-if="shiGan&&shiZhi" :style="'color:'+WU_XING_COLOR[NA_YIN_MAP[shiGan][shiZhi][2]]">{{NA_YIN_MAP[shiGan][shiZhi]}}</p>
         </el-col>
     </el-row>
     <!--  干支选择面板  -->
     <el-dialog v-model="dialogVisible" width="80%" align-center>
         <el-row justify="center">
             <el-col :span="6" v-for="i in dialogOptions">
-                <p class="nmlFont" :style="'color:'+wuXingColor[wuXingMap[i]]" @click="dialogMarkMap[dialogMark]=i; dialogMark%2&&(dialogMarkMap[dialogMark+1]=undefined); dialogVisible=false">{{i}}</p>
+                <p class="nmlFont" :style="'color:'+WU_XING_COLOR[WU_XING_MAP[i]]" @click="dialogMarkMap[dialogMark]=i; dialogMark%2&&(dialogMarkMap[dialogMark+1]=undefined); dialogVisible=false">{{i}}</p>
             </el-col>
         </el-row>
     </el-dialog>
@@ -78,109 +78,27 @@
 
 <script setup>
 import { ref } from 'vue'
+import { CANG_GAN, CHANG_SHENG_MAP, KONG_WANG_MAP, NA_YIN_MAP, SHI_SHEN_MAP, TIAN_GAN, WU_XING_COLOR, WU_XING_MAP, YANG_GAN, YANG_ZHI, YIN_GAN, YIN_ZHI } from './constant.js'
 
-const gan = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸']
-const yangGan = ['甲', '丙', '戊', '庚', '壬']
-const yinGan = ['乙', '丁', '己', '辛', '癸']
-const zhi = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥']
-const yangZhi = ['子', '寅', '辰', '午', '申', '戌']
-const yinZhi = ['丑', '卯', '巳', '未', '酉', '亥']
-const cangGan = {
-    '子': ['癸'],
-    '丑': ['己', '癸', '辛'],
-    '寅': ['甲', '丙', '戊'],
-    '卯': ['乙'],
-    '辰': ['戊', '乙', '癸'],
-    '巳': ['丙', '庚', '戊'],
-    '午': ['丁', '己'],
-    '未': ['己', '丁', '乙'],
-    '申': ['庚', '壬', '戊'],
-    '酉': ['辛'],
-    '戌': ['戊', '辛', '丁'],
-    '亥': ['壬', '甲'],
-}
-const changSheng = {
-    '甲': { '子': '沐浴', '丑': '冠带', '寅': '临官', '卯': '帝旺', '辰': '衰', '巳': '病', '午': '死', '未': '墓', '申': '绝', '酉': '胎', '戌': '养', '亥': '长生' },
-    '乙': { '子': '病', '丑': '衰', '寅': '帝旺', '卯': '临官', '辰': '冠带', '巳': '沐浴', '午': '长生', '未': '养', '申': '胎', '酉': '绝', '戌': '墓', '亥': '死' },
-    '丙': { '子': '胎', '丑': '养', '寅': '长生', '卯': '沐浴', '辰': '冠带', '巳': '临官', '午': '帝旺', '未': '衰', '申': '病', '酉': '死', '戌': '墓', '亥': '绝' },
-    '丁': { '子': '绝', '丑': '墓', '寅': '死', '卯': '病', '辰': '衰', '巳': '帝旺', '午': '临官', '未': '冠带', '申': '沐浴', '酉': '长生', '戌': '养', '亥': '胎' },
-    '戊': { '子': '胎', '丑': '养', '寅': '长生', '卯': '沐浴', '辰': '冠带', '巳': '临官', '午': '帝旺', '未': '衰', '申': '病', '酉': '死', '戌': '墓', '亥': '绝' },
-    '己': { '子': '绝', '丑': '墓', '寅': '死', '卯': '病', '辰': '衰', '巳': '帝旺', '午': '临官', '未': '冠带', '申': '沐浴', '酉': '长生', '戌': '养', '亥': '胎' },
-    '庚': { '子': '死', '丑': '墓', '寅': '绝', '卯': '胎', '辰': '养', '巳': '长生', '午': '沐浴', '未': '冠带', '申': '临官', '酉': '帝旺', '戌': '衰', '亥': '病' },
-    '辛': { '子': '长生', '丑': '养', '寅': '胎', '卯': '绝', '辰': '墓', '巳': '死', '午': '病', '未': '衰', '申': '帝旺', '酉': '临官', '戌': '冠带', '亥': '沐浴' },
-    '壬': { '子': '帝旺', '丑': '衰', '寅': '病', '卯': '死', '辰': '墓', '巳': '绝', '午': '胎', '未': '养', '申': '长生', '酉': '沐浴', '戌': '冠带', '亥': '临官' },
-    '癸': { '子': '临官', '丑': '冠带', '寅': '沐浴', '卯': '长生', '辰': '养', '巳': '胎', '午': '绝', '未': '墓', '申': '死', '酉': '病', '戌': '衰', '亥': '帝旺' },
-}
-const kongWang = {
-    '甲': { '子': '戌亥空', '寅': '子丑空', '辰': '寅卯空', '午': '辰巳空', '申': '午未空', '戌': '申酉空' },
-    '乙': { '丑': '戌亥空', '卯': '子丑空', '巳': '寅卯空', '未': '辰巳空', '酉': '午未空', '亥': '申酉空' },
-    '丙': { '子': '申酉空', '寅': '戌亥空', '辰': '子丑空', '午': '寅卯空', '申': '辰巳空', '戌': '午未空' },
-    '丁': { '丑': '申酉空', '卯': '戌亥空', '巳': '子丑空', '未': '寅卯空', '酉': '辰巳空', '亥': '午未空' },
-    '戊': { '子': '午未空', '寅': '申酉空', '辰': '戌亥空', '午': '子丑空', '申': '寅卯空', '戌': '辰巳空' },
-    '己': { '丑': '午未空', '卯': '申酉空', '巳': '戌亥空', '未': '子丑空', '酉': '寅卯空', '亥': '辰巳空' },
-    '庚': { '子': '辰巳空', '寅': '午未空', '辰': '申酉空', '午': '戌亥空', '申': '子丑空', '戌': '寅卯空' },
-    '辛': { '丑': '辰巳空', '卯': '午未空', '巳': '申酉空', '未': '戌亥空', '酉': '子丑空', '亥': '寅卯空' },
-    '壬': { '子': '寅卯空', '寅': '辰巳空', '辰': '午未空', '午': '申酉空', '申': '戌亥空', '戌': '子丑空' },
-    '癸': { '丑': '寅卯空', '卯': '辰巳空', '巳': '午未空', '未': '申酉空', '酉': '戌亥空', '亥': '子丑空' },
-}
-const naYin = {
-    '甲': { '子': '海中金', '寅': '大溪水', '辰': '覆灯火', '午': '砂中金', '申': '泉中水', '戌': '山头火' },
-    '乙': { '丑': '海中金', '卯': '大溪水', '巳': '覆灯火', '未': '砂中金', '酉': '泉中水', '亥': '山头火' },
-    '丙': { '子': '涧下水', '寅': '炉中火', '辰': '沙中土', '午': '天河水', '申': '山下火', '戌': '屋上土' },
-    '丁': { '丑': '涧下水', '卯': '炉中火', '巳': '沙中土', '未': '天河水', '酉': '山下火', '亥': '屋上土' },
-    '戊': { '子': '霹雳火', '寅': '城头土', '辰': '大林木', '午': '天上火', '申': '大驿土', '戌': '平地木' },
-    '己': { '丑': '霹雳火', '卯': '城头土', '巳': '大林木', '未': '天上火', '酉': '大驿土', '亥': '平地木' },
-    '庚': { '子': '壁上土', '寅': '松柏木', '辰': '白蜡金', '午': '路旁土', '申': '石榴木', '戌': '钗钏金' },
-    '辛': { '丑': '壁上土', '卯': '松柏木', '巳': '白蜡金', '未': '路旁土', '酉': '石榴木', '亥': '钗钏金' },
-    '壬': { '子': '桑柘木', '寅': '金箔金', '辰': '长流水', '午': '杨柳木', '申': '剑锋金', '戌': '大海水' },
-    '癸': { '丑': '桑柘木', '卯': '金箔金', '巳': '长流水', '未': '杨柳木', '酉': '剑锋金', '亥': '大海水' },
-}
-const shiShen = {
-    '甲': { '甲': '比', '乙': '劫', '丙': '食', '丁': '伤', '戊': '才', '己': '财', '庚': '杀', '辛': '官', '壬': '枭', '癸': '印' },
-    '乙': { '甲': '劫', '乙': '比', '丙': '伤', '丁': '食', '戊': '财', '己': '才', '庚': '官', '辛': '杀', '壬': '印', '癸': '枭' },
-    '丙': { '甲': '枭', '乙': '印', '丙': '比', '丁': '劫', '戊': '食', '己': '伤', '庚': '才', '辛': '财', '壬': '杀', '癸': '官' },
-    '丁': { '甲': '印', '乙': '枭', '丙': '劫', '丁': '比', '戊': '伤', '己': '食', '庚': '财', '辛': '才', '壬': '官', '癸': '杀' },
-    '戊': { '甲': '杀', '乙': '官', '丙': '枭', '丁': '印', '戊': '比', '己': '劫', '庚': '食', '辛': '伤', '壬': '才', '癸': '财' },
-    '己': { '甲': '官', '乙': '杀', '丙': '印', '丁': '枭', '戊': '劫', '己': '比', '庚': '伤', '辛': '食', '壬': '财', '癸': '才' },
-    '庚': { '甲': '才', '乙': '财', '丙': '杀', '丁': '官', '戊': '枭', '己': '印', '庚': '比', '辛': '劫', '壬': '食', '癸': '伤' },
-    '辛': { '甲': '财', '乙': '才', '丙': '官', '丁': '杀', '戊': '印', '己': '枭', '庚': '劫', '辛': '比', '壬': '伤', '癸': '食' },
-    '壬': { '甲': '食', '乙': '伤', '丙': '才', '丁': '财', '戊': '杀', '己': '官', '庚': '枭', '辛': '印', '壬': '比', '癸': '劫' },
-    '癸': { '甲': '伤', '乙': '食', '丙': '财', '丁': '才', '戊': '官', '己': '杀', '庚': '印', '辛': '枭', '壬': '劫', '癸': '比' },
-}
-const wuXingColor = {
-    '木': '#509a79',
-    '火': '#e05244',
-    '土': '#967957',
-    '金': '#f0a44e',
-    '水': '#427bd5',
-    '日主': '#555555',
-    undefined: '#cccccc',
-}
-const wuXingMap = {
-    '甲': '木', '乙': '木', '丙': '火', '丁': '火', '戊': '土',
-    '己': '土', '庚': '金', '辛': '金', '壬': '水', '癸': '水',
-    '子': '水', '丑': '土', '寅': '木', '卯': '木', '辰': '土', '巳': '火',
-    '午': '火', '未': '土', '申': '金', '酉': '金', '戌': '土', '亥': '水',
-}
 const nianGan = ref(), nianZhi = ref(), yueGan = ref(), yueZhi = ref(), riGan = ref(), riZhi = ref(), shiGan = ref(), shiZhi = ref()
 const buttonDialogVisible = ref(false)
 const dialogMark = ref(-1)
 const dialogMarkMap = ref({ 1: nianGan, 2: nianZhi, 3: yueGan, 4: yueZhi, 5: riGan, 6: riZhi, 7: shiGan, 8: shiZhi })
-const dialogOptions = ref([''])
+const dialogOptions = ref()
 const dialogVisible = ref(false)
 const note = ref('')
 const noteDialogVisible = ref(false)
 
 function randomOne() {
     const sample = (arr) => arr[Math.floor(Math.random() * arr.length)]
-    if (sample([0, 1])) { nianGan.value = sample(yangGan); nianZhi.value = sample(yangZhi) }
-    else { nianGan.value = sample(yinGan); nianZhi.value = sample(yinZhi) }
-    if (sample([0, 1])) { yueGan.value = sample(yangGan); yueZhi.value = sample(yangZhi) }
-    else { yueGan.value = sample(yinGan); yueZhi.value = sample(yinZhi) }
-    if (sample([0, 1])) { riGan.value = sample(yangGan); riZhi.value = sample(yangZhi) }
-    else { riGan.value = sample(yinGan); riZhi.value = sample(yinZhi) }
-    if (sample([0, 1])) { shiGan.value = sample(yangGan); shiZhi.value = sample(yangZhi) }
-    else { shiGan.value = sample(yinGan); shiZhi.value = sample(yinZhi) }
+    if (sample([0, 1])) { nianGan.value = sample(YANG_GAN); nianZhi.value = sample(YANG_ZHI) }
+    else { nianGan.value = sample(YIN_GAN); nianZhi.value = sample(YIN_ZHI) }
+    if (sample([0, 1])) { yueGan.value = sample(YANG_GAN); yueZhi.value = sample(YANG_ZHI) }
+    else { yueGan.value = sample(YIN_GAN); yueZhi.value = sample(YIN_ZHI) }
+    if (sample([0, 1])) { riGan.value = sample(YANG_GAN); riZhi.value = sample(YANG_ZHI) }
+    else { riGan.value = sample(YIN_GAN); riZhi.value = sample(YIN_ZHI) }
+    if (sample([0, 1])) { shiGan.value = sample(YANG_GAN); shiZhi.value = sample(YANG_ZHI) }
+    else { shiGan.value = sample(YIN_GAN); shiZhi.value = sample(YIN_ZHI) }
 }
 </script>
 
