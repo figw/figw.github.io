@@ -1,5 +1,5 @@
 <template>
-  <a href="/bazi">八字排盘</a>
+  <router-link to="/bazi">八字排盘</router-link>
   <p></p>
-  <a href="/liuyao">六爻装卦</a>
+  <router-link to="/liuyao">六爻装卦</router-link>
 </template>
