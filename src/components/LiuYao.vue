@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { LIU_QIN_MAP, NA_JIA, WU_XING_MAP } from '../assets/constant.js'
+import { LIU_QIN, NA_JIA, WU_XING } from '../assets/constant.js'
 
 const gua8 = {
     '111': '乾', '010': '坎', '100': '艮', '001': '震', '110': '巽', '101': '离', '000': '坤', '011': '兑'
@@ -41,7 +41,7 @@ function main() {
     const bianShangGua = gua8[bianGua.value.slice(0, 3).join('')]
     const bianXiaGua = gua8[bianGua.value.slice(3, 6).join('')]
     const guaGongIndex = gua64.findIndex(i => i.indexOf(benShangGua + benXiaGua) === 0)
-    const guaGongWuXing = WU_XING_MAP[gua64[guaGongIndex - guaGongIndex % 8][0]]
+    const guaGongWuXing = WU_XING[gua64[guaGongIndex - guaGongIndex % 8][0]]
     switch (guaGongIndex % 8) {
         case 0: shiYing.value[0] = '世'; shiYing.value[3] = '应'; break
         case 1: shiYing.value[5] = '世'; shiYing.value[2] = '应'; break
@@ -56,8 +56,8 @@ function main() {
     bianGuaName.value = gua64.find(i => i.indexOf(bianShangGua + bianXiaGua) === 0)
     benGuaNaJia.value = [NA_JIA[benShangGua][5], NA_JIA[benShangGua][4], NA_JIA[benShangGua][3], NA_JIA[benXiaGua][2], NA_JIA[benXiaGua][1], NA_JIA[benXiaGua][0]]
     bianGuaNaJia.value = [NA_JIA[bianShangGua][5], NA_JIA[bianShangGua][4], NA_JIA[bianShangGua][3], NA_JIA[bianXiaGua][2], NA_JIA[bianXiaGua][1], NA_JIA[bianXiaGua][0]]
-    benGuaLiuQin.value = benGuaNaJia.value.map(i => LIU_QIN_MAP[guaGongWuXing][i[2]])
-    bianGuaLiuQin.value = bianGuaNaJia.value.map(i => LIU_QIN_MAP[guaGongWuXing][i[2]])
+    benGuaLiuQin.value = benGuaNaJia.value.map(i => LIU_QIN[guaGongWuXing][i[2]])
+    bianGuaLiuQin.value = bianGuaNaJia.value.map(i => LIU_QIN[guaGongWuXing][i[2]])
 }
 </script>
 
