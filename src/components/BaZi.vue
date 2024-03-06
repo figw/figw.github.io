@@ -144,6 +144,7 @@ p.p-nml {
     font-size: 30px;
     font-weight: bold;
     text-align: center;
+    margin: 20px 0;
 }
 p.p-big {
     font-size: 50px;
