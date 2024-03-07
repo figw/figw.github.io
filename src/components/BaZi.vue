@@ -149,19 +149,19 @@ function getColor(key) {
   <!--  大运  -->
   <el-divider v-if="daYunList.length>0"></el-divider>
   <el-row justify="space-around">
-    <el-col :span="3" v-for="i in ['一','二','三','四','五','六','七','八','九','十'].slice(0,daYunList.length)">
+    <el-col :span="4" v-for="i in ['一','二','三','四','五','六','七','八','九','十'].slice(0,daYunList.length)">
       <p class="sml">{{i}}<br />运</p>
     </el-col>
   </el-row>
   <el-row justify="space-around">
-    <el-col :span="3" v-for="i in daYunList" :style="getColor(i[0])">
+    <el-col :span="4" v-for="i in daYunList" :style="getColor(i[0])">
       <p class="nml" style="margin:5px 0">
         {{i[0]}}<sub v-if="riGan" style="font-size:18px">{{SHI_SHEN[riGan][i[0]]}}</sub>
       </p>
     </el-col>
   </el-row>
   <el-row justify="space-around">
-    <el-col :span="3" v-for="i in daYunList" :style="getColor(i[1])">
+    <el-col :span="4" v-for="i in daYunList" :style="getColor(i[1])">
       <p class="nml" style="margin:5px 0">
         {{i[1]}}<sub v-if="riGan" style="font-size:18px">{{SHI_SHEN[riGan][CANG_GAN[i[1]][0]]}}</sub>
       </p>
