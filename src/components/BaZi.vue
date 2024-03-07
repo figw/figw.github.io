@@ -70,7 +70,7 @@ function clickGanZhi(name) {
     selectorDialogShow.value = true
 }
 function generateDaYun() {
-    const times = 8
+    const times = 6
     if (sex.value === 0 || !nianGan.value || !yueGan.value || !yueZhi.value) return daYunList.value = []
     let jiaZiList = [...JIA_ZI, ...JIA_ZI]
     if ((sex.value === 1 ? YIN_GAN : YANG_GAN).includes(nianGan.value)) jiaZiList = jiaZiList.reverse()
