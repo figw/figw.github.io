@@ -46,10 +46,10 @@ const sex = ref(0)
 const note = ref('')
 const noteDialogShow = ref(false)
 
-watch(nianGan, () => nianZhi.value = '')
-watch(yueGan, () => yueZhi.value = '')
-watch(riGan, () => riZhi.value = '')
-watch(shiGan, () => shiZhi.value = '')
+watch(nianGan, i => i && !isSameYinYang(i, nianZhi.value) && (nianZhi.value = ''))
+watch(yueGan, i => i && !isSameYinYang(i, yueZhi.value) && (yueZhi.value = ''))
+watch(riGan, i => i && !isSameYinYang(i, riZhi.value) && (riZhi.value = ''))
+watch(shiGan, i => i && !isSameYinYang(i, shiZhi.value) && (shiZhi.value = ''))
 watch(nianGan, () => generateDaYun())
 watch(yueGan, () => generateDaYun())
 watch(yueZhi, () => generateDaYun())
@@ -79,6 +79,9 @@ function generateDaYun() {
 }
 function getColor(key) {
     return WU_XING_COLOR[WU_XING[key]] && 'color:' + WU_XING_COLOR[WU_XING[key]]
+}
+function isSameYinYang(gan, zhi) {
+    return (YANG_GAN.includes(gan) && YANG_ZHI.includes(zhi)) || (YIN_GAN.includes(gan) && YIN_ZHI.includes(zhi))
 }
 </script>
 
