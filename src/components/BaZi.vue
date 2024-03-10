@@ -119,14 +119,14 @@ function isSameYinYang(gan, zhi) {
   <el-dialog v-model="selectorDialogShow" width="80%" align-center>
     <el-row justify="center">
       <el-col :span="12" v-for="i in [...selectorList, '']">
-        <p class="nml" :style="getColor(i)" style="margin:20px 0" @click="changingMap[changing]=i;selectorDialogShow=false">
+        <p class="nml" :style="getColor(i)" @click="changingMap[changing]=i;selectorDialogShow=false">
           {{i||'空'}}
         </p>
       </el-col>
     </el-row>
   </el-dialog>
   <!--  长生 & 空亡 & 纳音  -->
-  <el-divider></el-divider>
+  <br />
   <el-row>
     <el-col :span="6">
       <p class="sml" v-if="riGan&&nianZhi">{{CHANG_SHENG[riGan][nianZhi]}}</p>
@@ -150,7 +150,7 @@ function isSameYinYang(gan, zhi) {
     </el-col>
   </el-row>
   <!--  大运  -->
-  <el-divider v-if="daYunList.length>0"></el-divider>
+  <br />
   <el-row justify="space-around">
     <el-col :span="4" v-for="i in ['一','二','三','四','五','六','七','八','九','十'].slice(0,daYunList.length)">
       <p class="sml">{{i}}<br />运</p>
@@ -158,20 +158,21 @@ function isSameYinYang(gan, zhi) {
   </el-row>
   <el-row justify="space-around">
     <el-col :span="4" v-for="i in daYunList" :style="getColor(i[0])">
-      <p class="nml" style="margin:5px 0">
+      <p class="nml dayun">
         {{i[0]}}<sub v-if="riGan" style="font-size:18px">{{SHI_SHEN[riGan][i[0]]}}</sub>
       </p>
     </el-col>
   </el-row>
   <el-row justify="space-around">
     <el-col :span="4" v-for="i in daYunList" :style="getColor(i[1])">
-      <p class="nml" style="margin:5px 0">
+      <p class="nml dayun">
         {{i[1]}}<sub v-if="riGan" style="font-size:18px">{{SHI_SHEN[riGan][CANG_GAN[i[1]][0]]}}</sub>
       </p>
     </el-col>
   </el-row>
   <!--  备注  -->
-  <el-row style="margin-top:20px">
+  <br />
+  <el-row>
     <el-col>
       <p class="sml" :style="!note&&'color:#cccccc'" style="white-space:pre" @click="noteDialogShow=true">
         {{note||'点击备注'}}
@@ -189,18 +190,24 @@ function isSameYinYang(gan, zhi) {
 
 <style scoped>
 p.sml {
+    margin: 10px 0;
     font-size: 20px;
     font-weight: bold;
     text-align: center;
 }
 p.nml {
+    margin: 15px 0;
     font-size: 30px;
     font-weight: bold;
     text-align: center;
 }
 p.big {
+    margin: 20px 0;
     font-size: 50px;
     font-weight: bold;
     text-align: center;
+}
+p.dayun {
+    margin: 0;
 }
 </style>
