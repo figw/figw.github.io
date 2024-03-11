@@ -2,47 +2,62 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
+let elInputCallback
+let searchInputLast = ''
+let suggestList = []
 const router = useRouter()
 const searchEngineConfig = [
     {
         name: 'bing',
         nameCN: '必应',
-        favicon: 'favicon-bing.ico',
+        favicon: 'https://www.bing.com/favicon.ico',
         search: 'https://cn.bing.com/search?q=',
     },
     {
         name: 'google',
         nameCN: '谷歌',
-        favicon: 'favicon-google.ico',
+        favicon: 'https://www.google.cn/chrome/static/images/favicons/favicon-32x32.png',
         search: 'https://www.google.com.hk/search?q=',
     },
     {
         name: 'baidu',
         nameCN: '百度',
-        favicon: 'favicon-baidu.ico',
+        favicon: 'https://www.baidu.com/favicon.ico',
         search: 'https://www.baidu.com/s?wd=',
     },
     {
         name: 'zhihu',
         nameCN: '知乎',
-        favicon: 'favicon-zhihu.ico',
+        favicon: 'https://static.zhihu.com/favicon.ico',
         search: 'https://www.zhihu.com/search?q=',
     },
     {
         name: 'bilibili',
         nameCN: '哔哩哔哩',
-        favicon: 'favicon-bilibili.ico',
+        favicon: 'https://www.bilibili.com/favicon.ico',
         search: 'https://search.bilibili.com/all?keyword=',
     },
 ]
-const suggestApi = 'https://api.bing.com/qsonhs.aspx?q='
-const suggestMapper = i => i['AS']['Results']['Suggests'].map(j => new Object({ value: j['Txt'] }))
+const suggestApi = 'https://api.bing.com/qsonhs.aspx?type=cb&cb=window.bingSug&q='
 
 const searchInput = ref('')
 
-function getSuggests(queryString, callback) {
+window.bingSug = function (data) {
+    suggestList = []
+    for (const i of (data && data['AS'] && data['AS']['Results']) || []) {
+        suggestList.push(...i['Suggests'].map(j => new Object({ value: j['Txt'] }) || []))
+    }
+    elInputCallback && elInputCallback(suggestList)
+}
+
+function getSuggest(queryString, callback) {
     if (!queryString) return callback([])
-    callback([]) // todo
+    if (searchInputLast === queryString) return callback(suggestList)
+    searchInputLast = queryString
+    elInputCallback = callback
+    const script = document.createElement('script')
+    script.src = suggestApi + encodeURIComponent(queryString)
+    document.head.appendChild(script)
 }
 function openUrl(url) {
     return window.open(url, '_blank')
@@ -50,10 +65,10 @@ function openUrl(url) {
 </script>
 
 <template>
-  <el-autocomplete v-model="searchInput" :fetch-suggestions="getSuggests" style="width:500px"></el-autocomplete>
+  <el-autocomplete v-model="searchInput" :fetch-suggestions="getSuggest" style="width:500px"></el-autocomplete>
   <br /><br />
-  <el-button v-for="i in searchEngineConfig" @click="openUrl(i.search + searchInput)">
-    <img :src="'/src/assets/'+i.favicon" alt="" width="20px" />
+  <el-button v-for="i in searchEngineConfig" @click="openUrl(i.search + encodeURIComponent(searchInput))">
+    <img :src="i.favicon" alt="" width="20px" />
     &nbsp;{{i.nameCN}}
   </el-button>
   <br /><br />
