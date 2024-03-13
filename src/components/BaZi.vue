@@ -40,6 +40,7 @@ const shiZhiShenList = computed(() => shiZhi.value && CANG_GAN[shiZhi.value].map
 const changing = ref('')
 const changingMap = ref({ nianGan, nianZhi, yueGan, yueZhi, riGan, riZhi, shiGan, shiZhi })
 const daYunList = ref([])
+const daYunTitleShow = ref(true)
 const selectorList = ref([])
 const selectorDialogShow = ref(false)
 const sex = ref(0)
@@ -151,9 +152,9 @@ function isSameYinYang(gan, zhi) {
   </el-row>
   <!--  大运  -->
   <br />
-  <el-row justify="space-around">
-    <el-col :span="4" v-for="i in ['一','二','三','四','五','六','七','八','九','十'].slice(0,daYunList.length)">
-      <p class="sml">{{i}}<br />运</p>
+  <el-row justify="space-around" v-show="daYunTitleShow">
+    <el-col :span="4" v-for="(i,n) in ['一','二','三','四','五','六','七','八','九','十'].slice(0,daYunList.length)">
+      <p class="sml" @dblclick="n===0&&(daYunTitleShow=false)">{{i}}<br />运</p>
     </el-col>
   </el-row>
   <el-row justify="space-around">
