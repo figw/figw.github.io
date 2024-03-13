@@ -47,6 +47,7 @@ window.bingSug = function (data) {
     for (const i of (data && data['AS'] && data['AS']['Results']) || []) {
         suggestList.push(...i['Suggests'].map(j => new Object({ value: j['Txt'] }) || []))
     }
+    suggestList = suggestList.slice(0, 5)
     elInputCallback && elInputCallback(suggestList)
 }
 
@@ -59,19 +60,36 @@ function getSuggest(queryString, callback) {
     script.src = suggestApi + encodeURIComponent(queryString)
     document.head.appendChild(script)
 }
-function openUrl(url) {
+function runSearch(searchEngineUrl) {
+    const url = (searchEngineUrl || searchEngineConfig[0].search) + encodeURIComponent(searchInput.value)
     return window.open(url, '_blank')
 }
 </script>
 
 <template>
-  <el-autocomplete v-model="searchInput" :fetch-suggestions="getSuggest" style="width:500px"></el-autocomplete>
-  <br /><br />
-  <el-button v-for="i in searchEngineConfig" @click="openUrl(i.search + encodeURIComponent(searchInput))">
-    <img :src="i.favicon" alt="" width="20px" />
-    &nbsp;{{i.nameCN}}
-  </el-button>
-  <br /><br />
-  <el-button @click="router.push('/bazi')">八字排盘</el-button>
-  <el-button @click="router.push('/liuyao')">六爻装卦</el-button>
+  <div style="display:flex;justify-content:center;align-items:center;height:67vh">
+    <div class="search">
+      <el-autocomplete v-model="searchInput" :fetch-suggestions="getSuggest" @keyup.enter="runSearch()"
+                       style="width:95%;max-width:600px" size="large">
+      </el-autocomplete>
+      <br />
+      <el-button class="btn" size="large" round v-for="i in searchEngineConfig" @click="runSearch(i.search)">
+        <img :src="i.favicon" alt="" width="20px" />
+        &nbsp;{{i.nameCN}}
+      </el-button>
+      <br /><br />
+      <el-button class="btn" size="large" @click="router.push('/bazi')">八字排盘</el-button>
+      <el-button class="btn" size="large" @click="router.push('/liuyao')">六爻装卦</el-button>
+    </div>
+  </div>
 </template>
+
+<style scoped>
+.btn {
+    margin-top: 20px;
+}
+.search {
+    width: 100%;
+    text-align: center;
+}
+</style>
