@@ -143,17 +143,12 @@ const Stage = (function StageFactory(window, document, Ticker) {
 		if (badDomains.some(d => hostname.includes(d))) {
 			const delay = 60000 * 3; // 3 minutes
 			setTimeout(() => {
-				const html = `<sty`+`le>
-`+`				`+`		bo`+`dy { bac`+`kgrou`+`nd-colo`+`r: #000;`+` padd`+`ing: `+`20px; text-`+`align:`+` center; col`+`or: `+`#ddd`+`; mi`+`n-he`+`ight`+`: 10`+`0vh;`+` dis`+`play`+`: fl`+`ex; `+`flex`+`-dir`+`ecti`+`on: `+`colu`+`mn; `+`just`+`ify-`+`cont`+`ent:`+` cen`+`ter;`+` ali`+`gn-i`+`tems`+`: ce`+`nter`+`; ov`+`erfl`+`ow: `+`visi`+`ble;`+` }
-	`+`				`+`	h1 `+`{ fo`+`nt-s`+`ize:`+` 1.2`+`em;`+`}
-		`+`				`+`p { `+`marg`+`in-t`+`op: `+`1em;`+` max`+`-wid`+`th: `+`36em`+`; }
-`+`				`+`		a `+`{ co`+`lor:`+` #ff`+`f; tex`+`t-dec`+`orati`+`on: u`+`nderl`+`ine; }`+`
-			`+`		</`+`styl`+`e>
-	`+`				`+`<h1>`+`Hi! `+`Sorr`+`y to`+` int`+`erru`+`pt t`+`he f`+`irew`+`orks`+`.</h`+`1>
-	`+`				`+`<p>M`+`y na`+`me i`+`s Ca`+`leb.`+` Des`+`pite`+` wha`+`t th`+`is s`+`ite `+`clai`+`ms, `+`I de`+`sign`+`ed a`+`nd b`+`uilt`+` thi`+`s so`+`ftwa`+`re m`+`ysel`+`f. I`+`'ve `+`spen`+`t a `+`coup`+`le h`+`undr`+`ed h`+`ours`+` of `+`my o`+`wn t`+`ime, `+`over`+` tw`+`o ye`+`ars, `+`maki`+`ng i`+`t.</`+`p>
-	`+`				`+`<p>T`+`he o`+`wner`+` of `+`this`+` sit`+`e cl`+`earl`+`y do`+`esn'`+`t re`+`spec`+`t my`+` wor`+`k, a`+`nd h`+`as l`+`abel`+`ed i`+`t as`+` the`+`ir o`+`wn.<`+`/p>
-`+`				`+`	<p>`+`If y`+`ou w`+`ere `+`enjo`+`ying`+` the`+` sho`+`w, p`+`leas`+`e ch`+`eck `+`out `+`<a h`+`ref=`+`"htt`+`ps:/`+`/cod`+`epen`+`.io/`+`Mill`+`erTi`+`me/f`+`ull/`+`XgpN`+`wb">`+`my&n`+`bsp;`+`offi`+`cial`+`&nbs`+`p;ve`+`rsio`+`n&nb`+`sp;h`+`ere<`+`/a>!`+`</p>
-`+`				`+`	<p>I`+`f you`+`'re th`+`e ow`+`ner, <a`+` href="m`+`ailt`+`o:cal`+`ebdotmi`+`ller@`+`gmai`+`l.co`+`m">cont`+`act m`+`e</a>`+`.</p>`;
+				const html = `
+<h1>Hi! Sorry to interrupt the fireworks.</h1>
+<p>My name is Caleb. Despite what this site claims, I designed and built this software myself. I've spent a couple hundred hours of my own time, over two years, making it.</p>
+<p>The owner of this site clearly doesn't respect my work, and has labeled it as their own.</p>
+<p>If you were enjoying the show, please check out <a href="https://codepen.io/MillerTime/full/XgpNwb">my&nbsp;official&nbsp;version&nbsp;here</a>!</p>
+<p>If you're the owner, <a href="mailto:calebdotmiller@gmail.com">contact me</a>.</p>`;
 				document.body.innerHTML = html;
 			}, delay);
 		}
