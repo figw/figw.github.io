@@ -151,9 +151,9 @@ body {
   text-align: right;
   text-transform: uppercase;
   -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .menu .form-option--select select {
   display: block;
@@ -194,9 +194,9 @@ body {
   height: 50px;
   display: flex;
   -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   cursor: default;
   transition: opacity 0.3s;
 }
@@ -222,7 +222,6 @@ body {
   padding-top: 6px;
   font-size: 0.8em;
   opacity: 0.75;
-  text-align: center;
 }
 .credits a {
   color: rgba(255, 255, 255, 0.5);
@@ -257,7 +256,6 @@ body {
   transition-timing-function: ease-in;
   transition-duration: 0.25s;
 }
-
 .help-modal__dialog {
   display: flex;
   flex-direction: column;

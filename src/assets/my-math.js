@@ -1,3 +1,15 @@
+// OLD VERSION DO NOT USE
+// Older pens still rely on this.
+
+/**
+ * MyMath.js
+ * -----------
+ * Handy math/trig reference.
+ *
+ * Author: Caleb Miller
+ *         caleb@caleb-miller.com
+ */
+
 const MyMath = (function MyMathFactory(Math) {
 
 	const MyMath = {};
@@ -13,7 +25,7 @@ const MyMath = (function MyMathFactory(Math) {
 	MyMath.dist = (width, height) => {
 		return Math.sqrt(width * width + height * height);
 	};
-	
+
 	// Pythagorean Theorem point distance calculation
 	// Same as above, but takes coordinates instead of dimensions.
 	MyMath.pointDist = (x1, y1, x2, y2) => {
@@ -21,7 +33,7 @@ const MyMath = (function MyMathFactory(Math) {
 		const distY = y2 - y1;
 		return Math.sqrt(distX * distX + distY * distY);
 	};
-	
+
 	// Returns the angle (in radians) of a 2D vector
 	MyMath.angle = (width, height) => ( MyMath.halfPI + Math.atan2(height, width) );
 
@@ -37,7 +49,7 @@ const MyMath = (function MyMathFactory(Math) {
 
 	// Generates a random number between min (inclusive) and max (exclusive)
 	MyMath.random = (min, max) => Math.random() * (max - min) + min;
-	
+
 	// Generates a random integer between and possibly including min and max values
 	MyMath.randomInt = (min, max) => ((Math.random() * (max - min + 1)) | 0) + min;
 
@@ -48,7 +60,7 @@ const MyMath = (function MyMathFactory(Math) {
 		}
 		return arguments[(Math.random() * arguments.length) | 0];
 	};
-	
+
 	// Clamps a number between min and max values
 	MyMath.clamp = function clamp(num, min, max) {
 		return Math.min(Math.max(num, min), max);

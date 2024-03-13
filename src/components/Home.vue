@@ -78,6 +78,7 @@ function runSearch(searchEngineUrl) {
         &nbsp;{{i.nameCN}}
       </el-button>
       <br /><br />
+      <el-button class="btn" size="large" @click="router.push('/fireworks')">看烟花</el-button>
       <el-button class="btn" size="large" @click="router.push('/bazi')">八字排盘</el-button>
       <el-button class="btn" size="large" @click="router.push('/liuyao')">六爻装卦</el-button>
     </div>

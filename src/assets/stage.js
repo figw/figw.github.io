@@ -1,3 +1,44 @@
+// New Features
+// ------------------
+// - Proper multitouch support!
+
+// Breaking changes
+// ------------------
+// - No longer uses preventDefault() in touch handler.
+// - <canvas> elements have `touchAction: auto` style applied.
+
+
+
+
+// Inlined Stage.js dependency: Ticker.js
+
+/**
+ * Ticker.js
+ * -----------
+ * requestAnimationFrame helper. Provides elapsed time between frames and a lag compensation multiplier to callbacks.
+ *
+ * Author: Caleb Miller
+ *         caleb@caleb-miller.com
+ */
+
+/**
+ * Stage.js
+ * -----------
+ * Super simple "stage" abstraction for canvas. Combined with Ticker.js, it helps simplify:
+ *   - Preparing a canvas for drawing.
+ *   - High resolution rendering.
+ *   - Resizing the canvas.
+ *   - Pointer events (mouse and touch).
+ *   - Frame callbacks with useful timing data and calculated lag.
+ *
+ * This is no replacement for robust canvas drawing libraries; it's designed to be as lightweight as possible and defers
+ * full rendering burden to user.
+ *
+ * Author: Caleb Miller
+ *         caleb@caleb-miller.com
+ */
+
+
 const Ticker = (function TickerFactory(window) {
 	'use strict';
 
@@ -60,8 +101,8 @@ const Ticker = (function TickerFactory(window) {
 
 const Stage = (function StageFactory(window, document, Ticker) {
 	'use strict';
-  
-  // Track touch times to prevent redundant mouse events.
+
+	// Track touch times to prevent redundant mouse events.
 	let lastTouchTimestamp = 0;
 
 	// Stage constructor (canvas can be a dom node, or an id string)
@@ -71,9 +112,9 @@ const Stage = (function StageFactory(window, document, Ticker) {
 		// canvas and associated context references
 		this.canvas = canvas;
 		this.ctx = canvas.getContext('2d');
-    
-    // Prevent gestures on stages (scrolling, zooming, etc)
-    this.canvas.style.touchAction = 'none';
+
+		// Prevent gestures on stages (scrolling, zooming, etc)
+		this.canvas.style.touchAction = 'none';
 
 		// physics speed multiplier: allows slowing down or speeding up simulation (must be manually implemented in physics layer)
 		this.speed = 1;
@@ -136,7 +177,7 @@ const Stage = (function StageFactory(window, document, Ticker) {
 
 	// allow turning off high DPI support for perf reasons (enabled by default)
 	// Note: MUST be set before Stage construction.
-	// Each stage tracks its own DPI (initialized at construction time), so you can effectively allow some Stages to render high-res graphics but not others.
+	//       Each stage tracks its own DPI (initialized at construction time), so you can effectively allow some Stages to render high-res graphics but not others.
 	Stage.disableHighDPI = false;
 
 	// events
@@ -180,16 +221,16 @@ const Stage = (function StageFactory(window, document, Ticker) {
 	Stage.windowToCanvas = function windowToCanvas(canvas, x, y) {
 		const bbox = canvas.getBoundingClientRect();
 		return {
-				x: (x - bbox.left) * (canvas.width / bbox.width),
-				y: (y - bbox.top) * (canvas.height / bbox.height)
-			   };
+			x: (x - bbox.left) * (canvas.width / bbox.width),
+			y: (y - bbox.top) * (canvas.height / bbox.height)
+		};
 	};
 	// handle interaction
 	Stage.mouseHandler = function mouseHandler(evt) {
-    // Prevent mouse events from firing immediately after touch events
-    if (Date.now() - lastTouchTimestamp < 500) {
-      return;
-    }
+		// Prevent mouse events from firing immediately after touch events
+		if (Date.now() - lastTouchTimestamp < 500) {
+			return;
+		}
 
 		let type = 'start';
 		if (evt.type === 'mousemove') {
@@ -204,32 +245,32 @@ const Stage = (function StageFactory(window, document, Ticker) {
 		});
 	};
 	Stage.touchHandler = function touchHandler(evt) {
-    lastTouchTimestamp = Date.now();
-    
-    // Set generic event type
+		lastTouchTimestamp = Date.now();
+
+		// Set generic event type
 		let type = 'start';
 		if (evt.type === 'touchmove') {
 			type = 'move';
 		}else if (evt.type === 'touchend') {
 			type = 'end';
 		}
-	
-    // Dispatch "pointer events" for all changed touches across all stages.
+
+		// Dispatch "pointer events" for all changed touches across all stages.
 		Stage.stages.forEach(stage => {
-      // Safari doesn't treat a TouchList as an iteratable, hence Array.from()
-      for (let touch of Array.from(evt.changedTouches)) {
-        let pos;
-        if (type !== 'end') {
-          pos = Stage.windowToCanvas(stage.canvas, touch.clientX, touch.clientY);
-          stage._listeners.lastPointerPos = pos;
-          // before touchstart event, fire a move event to better emulate cursor events
-          if (type === 'start') stage.pointerEvent('move', pos.x / stage.dpr, pos.y / stage.dpr);
-        }else{
-          // on touchend, fill in position information based on last known touch location
-          pos = stage._listeners.lastPointerPos;
-        }
-        stage.pointerEvent(type, pos.x / stage.dpr, pos.y / stage.dpr);
-      }
+			// Safari doesn't treat a TouchList as an iteratable, hence Array.from()
+			for (let touch of Array.from(evt.changedTouches)) {
+				let pos;
+				if (type !== 'end') {
+					pos = Stage.windowToCanvas(stage.canvas, touch.clientX, touch.clientY);
+					stage._listeners.lastPointerPos = pos;
+					// before touchstart event, fire a move event to better emulate cursor events
+					if (type === 'start') stage.pointerEvent('move', pos.x / stage.dpr, pos.y / stage.dpr);
+				}else{
+					// on touchend, fill in position information based on last known touch location
+					pos = stage._listeners.lastPointerPos;
+				}
+				stage.pointerEvent(type, pos.x / stage.dpr, pos.y / stage.dpr);
+			}
 		});
 	};
 
