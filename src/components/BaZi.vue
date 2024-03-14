@@ -56,6 +56,9 @@ watch(yueGan, () => generateDaYun())
 watch(yueZhi, () => generateDaYun())
 watch(sex, () => generateDaYun())
 
+function clearAll() {
+    nianGan.value = nianZhi.value = yueGan.value = yueZhi.value = riGan.value = riZhi.value = shiGan.value = shiZhi.value = ''
+}
 function clickGanZhi(name) {
     switch (name) {
         case 'nianGan':
@@ -92,7 +95,7 @@ function isSameYinYang(gan, zhi) {
   <!--  干支  -->
   <el-row style="color:#cccccc">
     <el-col :span="6">
-      <p class="nml" :style="getColor(nianGan)">{{nianGanShen||'年'}}</p>
+      <p class="nml" :style="getColor(nianGan)" @dblclick="clearAll()">{{nianGanShen||'年'}}</p>
       <p class="big" :style="getColor(nianGan)" @click="clickGanZhi('nianGan')">{{nianGan||'干'}}</p>
       <p class="big" :style="getColor(nianZhi)" @click="clickGanZhi('nianZhi')">{{nianZhi||'支'}}</p>
       <p class="sml" :style="getColor(i[0])" v-for="i in nianZhiShenList">{{i}}</p>
