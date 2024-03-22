@@ -40,12 +40,14 @@ const shiZhiShenList = computed(() => shiZhi.value && CANG_GAN[shiZhi.value].map
 const changing = ref('')
 const changingMap = ref({ nianGan, nianZhi, yueGan, yueZhi, riGan, riZhi, shiGan, shiZhi })
 const daYunList = ref([])
-const daYunTitleShow = ref(true)
-const selectorList = ref([])
-const selectorDialogShow = ref(false)
+const selectList = ref([])
 const sex = ref(0)
+const showDaYunTitle = ref(true)
+const showKongWang = ref(true)
+const showNaYin = ref(true)
+const showNoteDialog = ref(false)
+const showSelectDialog = ref(false)
 const note = ref('')
-const noteDialogShow = ref(false)
 
 watch(nianGan, i => i && !isSameYinYang(i, nianZhi.value) && (nianZhi.value = ''))
 watch(yueGan, i => i && !isSameYinYang(i, yueZhi.value) && (yueZhi.value = ''))
@@ -64,14 +66,14 @@ function clickGanZhi(name) {
         case 'nianGan':
         case 'yueGan':
         case 'riGan':
-        case 'shiGan': selectorList.value = TIAN_GAN; break
-        case 'nianZhi': selectorList.value = nianGan.value ? (YANG_GAN.includes(nianGan.value) ? YANG_ZHI : YIN_ZHI) : DI_ZHI; break
-        case 'yueZhi': selectorList.value = yueGan.value ? (YANG_GAN.includes(yueGan.value) ? YANG_ZHI : YIN_ZHI) : DI_ZHI; break
-        case 'riZhi': selectorList.value = riGan.value ? (YANG_GAN.includes(riGan.value) ? YANG_ZHI : YIN_ZHI) : DI_ZHI; break
-        case 'shiZhi': selectorList.value = shiGan.value ? (YANG_GAN.includes(shiGan.value) ? YANG_ZHI : YIN_ZHI) : DI_ZHI; break
+        case 'shiGan': selectList.value = TIAN_GAN; break
+        case 'nianZhi': selectList.value = nianGan.value ? (YANG_GAN.includes(nianGan.value) ? YANG_ZHI : YIN_ZHI) : DI_ZHI; break
+        case 'yueZhi': selectList.value = yueGan.value ? (YANG_GAN.includes(yueGan.value) ? YANG_ZHI : YIN_ZHI) : DI_ZHI; break
+        case 'riZhi': selectList.value = riGan.value ? (YANG_GAN.includes(riGan.value) ? YANG_ZHI : YIN_ZHI) : DI_ZHI; break
+        case 'shiZhi': selectList.value = shiGan.value ? (YANG_GAN.includes(shiGan.value) ? YANG_ZHI : YIN_ZHI) : DI_ZHI; break
     }
     changing.value = name
-    selectorDialogShow.value = true
+    showSelectDialog.value = true
 }
 function generateDaYun() {
     const times = 6
@@ -120,10 +122,10 @@ function isSameYinYang(gan, zhi) {
     </el-col>
   </el-row>
   <!--  干支选择面板  -->
-  <el-dialog v-model="selectorDialogShow" width="80%" align-center>
+  <el-dialog v-model="showSelectDialog" width="80%" align-center>
     <el-row justify="center">
-      <el-col :span="12" v-for="i in [...selectorList, '']">
-        <p class="nml" :style="getColor(i)" @click="changingMap[changing]=i;selectorDialogShow=false">
+      <el-col :span="12" v-for="i in [...selectList, '']">
+        <p class="nml" :style="getColor(i)" @click="changingMap[changing]=i;showSelectDialog=false">
           {{i||'空'}}
         </p>
       </el-col>
@@ -131,38 +133,34 @@ function isSameYinYang(gan, zhi) {
   </el-dialog>
   <!--  长生 & 空亡 & 纳音  -->
   <br />
-  <el-row>
-    <el-col :span="6">
-      <p class="sml" v-if="riGan&&nianZhi">{{CHANG_SHENG[riGan][nianZhi]}}</p>
-      <p class="sml" v-if="nianGan&&nianZhi">{{KONG_WANG[nianGan][nianZhi]}}空</p>
-      <p class="sml" v-if="nianGan&&nianZhi" :style="getColor(NA_YIN[nianGan][nianZhi])">{{NA_YIN[nianGan][nianZhi]}}</p>
-    </el-col>
-    <el-col :span="6">
-      <p class="sml" v-if="riGan&&yueZhi">{{CHANG_SHENG[riGan][yueZhi]}}</p>
-      <p class="sml" v-if="yueGan&&yueZhi">{{KONG_WANG[yueGan][yueZhi]}}空</p>
-      <p class="sml" v-if="yueGan&&yueZhi" :style="getColor(NA_YIN[yueGan][yueZhi])">{{NA_YIN[yueGan][yueZhi]}}</p>
-    </el-col>
-    <el-col :span="6">
-      <p class="sml" v-if="riGan&&riZhi">{{CHANG_SHENG[riGan][riZhi]}}</p>
-      <p class="sml" v-if="riGan&&riZhi">{{KONG_WANG[riGan][riZhi]}}空</p>
-      <p class="sml" v-if="riGan&&riZhi" :style="getColor(NA_YIN[riGan][riZhi])">{{NA_YIN[riGan][riZhi]}}</p>
-    </el-col>
-    <el-col :span="6">
-      <p class="sml" v-if="riGan&&shiZhi">{{CHANG_SHENG[riGan][shiZhi]}}</p>
-      <p class="sml" v-if="shiGan&&shiZhi">{{KONG_WANG[shiGan][shiZhi]}}空</p>
-      <p class="sml" v-if="shiGan&&shiZhi" :style="getColor(NA_YIN[shiGan][shiZhi])">{{NA_YIN[shiGan][shiZhi]}}</p>
-    </el-col>
+  <el-row v-if="riGan">
+    <el-col :span="6"><p v-if="nianZhi" @dblclick="showKongWang=showNaYin=!showNaYin">{{CHANG_SHENG[riGan][nianZhi]}}</p></el-col>
+    <el-col :span="6"><p v-if="yueZhi">{{CHANG_SHENG[riGan][yueZhi]}}</p></el-col>
+    <el-col :span="6"><p v-if="riZhi">{{CHANG_SHENG[riGan][riZhi]}}</p></el-col>
+    <el-col :span="6"><p v-if="shiZhi">{{CHANG_SHENG[riGan][shiZhi]}}</p></el-col>
+  </el-row>
+  <el-row v-show="showKongWang">
+    <el-col :span="6"><p v-if="nianGan&&nianZhi">{{KONG_WANG[nianGan][nianZhi]}}空</p></el-col>
+    <el-col :span="6"><p v-if="yueGan&&yueZhi">{{KONG_WANG[yueGan][yueZhi]}}空</p></el-col>
+    <el-col :span="6"><p v-if="riGan&&riZhi">{{KONG_WANG[riGan][riZhi]}}空</p></el-col>
+    <el-col :span="6"><p v-if="shiGan&&shiZhi">{{KONG_WANG[shiGan][shiZhi]}}空</p></el-col>
+  </el-row>
+  <el-row v-show="showNaYin">
+    <el-col :span="6"><p v-if="nianGan&&nianZhi" :style="getColor(NA_YIN[nianGan][nianZhi])">{{NA_YIN[nianGan][nianZhi]}}</p></el-col>
+    <el-col :span="6"><p v-if="yueGan&&yueZhi" :style="getColor(NA_YIN[yueGan][yueZhi])">{{NA_YIN[yueGan][yueZhi]}}</p></el-col>
+    <el-col :span="6"><p v-if="riGan&&riZhi" :style="getColor(NA_YIN[riGan][riZhi])">{{NA_YIN[riGan][riZhi]}}</p></el-col>
+    <el-col :span="6"><p v-if="shiGan&&shiZhi" :style="getColor(NA_YIN[shiGan][shiZhi])">{{NA_YIN[shiGan][shiZhi]}}</p></el-col>
   </el-row>
   <!--  大运  -->
   <br />
-  <el-row justify="space-around" v-show="daYunTitleShow">
-    <el-col :span="4" v-for="(i,n) in ['一','二','三','四','五','六','七','八','九','十'].slice(0,daYunList.length)">
-      <p class="sml" @dblclick="n===0&&(daYunTitleShow=false)">{{i}}<br />运</p>
+  <el-row justify="space-around" v-show="showDaYunTitle">
+    <el-col :span="4" v-for="i in ['一','二','三','四','五','六','七','八','九','十'].slice(0,daYunList.length)">
+      <p class="sml">{{i}}<br />运</p>
     </el-col>
   </el-row>
   <el-row justify="space-around">
-    <el-col :span="4" v-for="i in daYunList" :style="getColor(i[0])">
-      <p class="nml dayun">
+    <el-col :span="4" v-for="(i,n) in daYunList" :style="getColor(i[0])">
+      <p class="nml dayun" @dblclick="n===0&&(showDaYunTitle=!showDaYunTitle)">
         {{i[0]}}<sub v-if="riGan" style="font-size:18px">{{SHI_SHEN[riGan][i[0]]}}</sub>
       </p>
     </el-col>
@@ -178,22 +176,22 @@ function isSameYinYang(gan, zhi) {
   <br />
   <el-row>
     <el-col>
-      <p class="sml" :style="!note&&'color:#cccccc'" style="white-space:pre" @click="noteDialogShow=true">
+      <p class="sml" :style="!note&&'color:#cccccc'" style="white-space:pre" @click="showNoteDialog=true">
         {{note||'点击备注'}}
       </p>
     </el-col>
   </el-row>
   <!--  备注输入面板  -->
-  <el-dialog v-model="noteDialogShow" width="80%" align-center>
+  <el-dialog v-model="showNoteDialog" width="80%" align-center>
     <el-input v-model="note" :autosize="{minRows:3}" type="textarea" placeholder="输入备注"></el-input>
-    <el-button type="primary" style="margin-top:20px" @click="noteDialogShow=false">确认</el-button>
+    <el-button type="primary" style="margin-top:20px" @click="showNoteDialog=false">确认</el-button>
   </el-dialog>
 </el-col>
 </el-row>
 </template>
 
 <style scoped>
-p.sml {
+p, p.sml {
     margin: 10px 0;
     font-size: 20px;
     font-weight: bold;
