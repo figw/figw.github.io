@@ -60,6 +60,7 @@ watch(sex, () => generateDaYun())
 
 function clearAll() {
     nianGan.value = nianZhi.value = yueGan.value = yueZhi.value = riGan.value = riZhi.value = shiGan.value = shiZhi.value = ''
+    sex.value = 0
 }
 function clickGanZhi(name) {
     switch (name) {
