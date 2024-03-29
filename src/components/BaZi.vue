@@ -133,7 +133,7 @@ function isSameYinYang(gan, zhi) {
     </el-row>
   </el-dialog>
   <!--  长生 & 空亡 & 纳音  -->
-  <br />
+  <!-- <br />
   <el-row v-if="riGan">
     <el-col :span="6"><p v-if="nianZhi" @dblclick="showKongWang=showNaYin=!showNaYin">{{CHANG_SHENG[riGan][nianZhi]}}</p></el-col>
     <el-col :span="6"><p v-if="yueZhi">{{CHANG_SHENG[riGan][yueZhi]}}</p></el-col>
@@ -151,7 +151,7 @@ function isSameYinYang(gan, zhi) {
     <el-col :span="6"><p v-if="yueGan&&yueZhi" :style="getColor(NA_YIN[yueGan][yueZhi])">{{NA_YIN[yueGan][yueZhi]}}</p></el-col>
     <el-col :span="6"><p v-if="riGan&&riZhi" :style="getColor(NA_YIN[riGan][riZhi])">{{NA_YIN[riGan][riZhi]}}</p></el-col>
     <el-col :span="6"><p v-if="shiGan&&shiZhi" :style="getColor(NA_YIN[shiGan][shiZhi])">{{NA_YIN[shiGan][shiZhi]}}</p></el-col>
-  </el-row>
+  </el-row> -->
   <!--  大运  -->
   <br />
   <el-row justify="space-around" v-show="showDaYunTitle">
