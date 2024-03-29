@@ -40,6 +40,7 @@ const shiZhiShenList = computed(() => shiZhi.value && CANG_GAN[shiZhi.value].map
 const changing = ref('')
 const changingMap = ref({ nianGan, nianZhi, yueGan, yueZhi, riGan, riZhi, shiGan, shiZhi })
 const daYunList = ref([])
+const qiYunAge = ref(-1)
 const selectList = ref([])
 const sex = ref(0)
 const showDaYunTitle = ref(true)
@@ -58,6 +59,10 @@ watch(yueGan, () => generateDaYun())
 watch(yueZhi, () => generateDaYun())
 watch(sex, () => generateDaYun())
 
+function changeQiYunAge(index) {
+    if (index === 1) qiYunAge.value++
+    else if (index === 0 && qiYunAge.value > -1) qiYunAge.value--
+}
 function clearAll() {
     nianGan.value = nianZhi.value = yueGan.value = yueZhi.value = riGan.value = riZhi.value = shiGan.value = shiZhi.value = ''
     sex.value = 0
@@ -155,8 +160,10 @@ function isSameYinYang(gan, zhi) {
   <!--  大运  -->
   <br />
   <el-row justify="space-around" v-show="showDaYunTitle">
-    <el-col :span="4" v-for="i in ['一','二','三','四','五','六','七','八','九','十'].slice(0,daYunList.length)">
-      <p class="sml">{{i}}<br />运</p>
+    <el-col :span="4" v-for="(i,n) in ['一','二','三','四','五','六','七','八','九','十'].slice(0,daYunList.length)">
+      <p class="sml" @dblclick="changeQiYunAge(n)">
+        {{qiYunAge>-1?qiYunAge+n*10:i}}<br />{{qiYunAge>-1?'岁':'运'}}
+      </p>
     </el-col>
   </el-row>
   <el-row justify="space-around">
@@ -193,19 +200,19 @@ function isSameYinYang(gan, zhi) {
 
 <style scoped>
 p, p.sml {
-    margin: 10px 0;
+    margin: 5px 0;
     font-size: 20px;
     font-weight: bold;
     text-align: center;
 }
 p.nml {
-    margin: 15px 0;
+    margin: 10px 0;
     font-size: 30px;
     font-weight: bold;
     text-align: center;
 }
 p.big {
-    margin: 20px 0;
+    margin: 15px 0;
     font-size: 50px;
     font-weight: bold;
     text-align: center;
