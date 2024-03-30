@@ -65,6 +65,7 @@ function changeQiYunAge(index) {
 }
 function clearAll() {
     nianGan.value = nianZhi.value = yueGan.value = yueZhi.value = riGan.value = riZhi.value = shiGan.value = shiZhi.value = ''
+    qiYunAge.value = -1
     sex.value = 0
 }
 function clickGanZhi(name) {
