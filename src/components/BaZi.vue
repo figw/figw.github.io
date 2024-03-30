@@ -159,7 +159,9 @@ function isSameYinYang(gan, zhi) {
     <el-col :span="6"><p v-if="shiGan&&shiZhi" :style="getColor(NA_YIN[shiGan][shiZhi])">{{NA_YIN[shiGan][shiZhi]}}</p></el-col>
   </el-row> -->
   <!-- 备注 -->
-  <input v-model="note" style="border:none;width:100%" />
+  <el-row>
+    <input v-model="note" style="border:none;width:100%" />
+  </el-row>
   <!-- 大运 -->
   <el-row justify="space-around" v-show="showDaYunTitle">
     <el-col :span="4" v-for="(i,n) in ['一','二','三','四','五','六','七','八','九','十'].slice(0,daYunList.length)">
