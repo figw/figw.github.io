@@ -40,15 +40,14 @@ const shiZhiShenList = computed(() => shiZhi.value && CANG_GAN[shiZhi.value].map
 const changing = ref('')
 const changingMap = ref({ nianGan, nianZhi, yueGan, yueZhi, riGan, riZhi, shiGan, shiZhi })
 const daYunList = ref([])
+const note = ref('')
 const qiYunAge = ref(-1)
 const selectList = ref([])
 const sex = ref(0)
 const showDaYunTitle = ref(true)
 const showKongWang = ref(true)
 const showNaYin = ref(true)
-const showNoteDialog = ref(false)
 const showSelectDialog = ref(false)
-const note = ref('')
 
 watch(nianGan, i => i && !isSameYinYang(i, nianZhi.value) && (nianZhi.value = ''))
 watch(yueGan, i => i && !isSameYinYang(i, yueZhi.value) && (yueZhi.value = ''))
@@ -65,6 +64,7 @@ function changeQiYunAge(index) {
 }
 function clearAll() {
     nianGan.value = nianZhi.value = yueGan.value = yueZhi.value = riGan.value = riZhi.value = shiGan.value = shiZhi.value = ''
+    note.value = ''
     qiYunAge.value = -1
     sex.value = 0
 }
@@ -101,7 +101,7 @@ function isSameYinYang(gan, zhi) {
 <template>
 <el-row justify="center">
 <el-col :xs="24" :sm="24" :lg="16" :xl="8">
-  <!--  干支  -->
+  <!-- 干支 -->
   <el-row style="color:#cccccc">
     <el-col :span="6">
       <p class="nml" :style="getColor(nianGan)" @dblclick="clearAll()">{{nianGanShen||'年'}}</p>
@@ -128,7 +128,7 @@ function isSameYinYang(gan, zhi) {
       <p class="sml" :style="getColor(i[0])" v-for="i in shiZhiShenList">{{i}}</p>
     </el-col>
   </el-row>
-  <!--  干支选择面板  -->
+  <!-- 干支选择面板 -->
   <el-dialog v-model="showSelectDialog" width="80%" align-center>
     <el-row justify="center">
       <el-col :span="12" v-for="i in [...selectList, '']">
@@ -138,7 +138,7 @@ function isSameYinYang(gan, zhi) {
       </el-col>
     </el-row>
   </el-dialog>
-  <!--  长生 & 空亡 & 纳音  -->
+  <!-- 长生 & 空亡 & 纳音 -->
   <!-- <br />
   <el-row v-if="riGan">
     <el-col :span="6"><p v-if="nianZhi" @dblclick="showKongWang=showNaYin=!showNaYin">{{CHANG_SHENG[riGan][nianZhi]}}</p></el-col>
@@ -158,12 +158,13 @@ function isSameYinYang(gan, zhi) {
     <el-col :span="6"><p v-if="riGan&&riZhi" :style="getColor(NA_YIN[riGan][riZhi])">{{NA_YIN[riGan][riZhi]}}</p></el-col>
     <el-col :span="6"><p v-if="shiGan&&shiZhi" :style="getColor(NA_YIN[shiGan][shiZhi])">{{NA_YIN[shiGan][shiZhi]}}</p></el-col>
   </el-row> -->
-  <!--  大运  -->
-  <br />
+  <!-- 备注 -->
+  <input v-model="note" style="border:none;width:100%" />
+  <!-- 大运 -->
   <el-row justify="space-around" v-show="showDaYunTitle">
     <el-col :span="4" v-for="(i,n) in ['一','二','三','四','五','六','七','八','九','十'].slice(0,daYunList.length)">
       <p class="sml" @dblclick="changeQiYunAge(n)">
-        {{qiYunAge>-1?qiYunAge+n*10:i}}<br />{{qiYunAge>-1?'岁':'运'}}
+        {{qiYunAge>-1?qiYunAge+n*10+'岁':i+'运'}}
       </p>
     </el-col>
   </el-row>
@@ -181,42 +182,22 @@ function isSameYinYang(gan, zhi) {
       </p>
     </el-col>
   </el-row>
-  <!--  备注  -->
-  <br />
-  <el-row>
-    <el-col>
-      <p class="sml" :style="!note&&'color:#cccccc'" style="white-space:pre" @click="showNoteDialog=true">
-        {{note||'点击备注'}}
-      </p>
-    </el-col>
-  </el-row>
-  <!--  备注输入面板  -->
-  <el-dialog v-model="showNoteDialog" width="80%" align-center>
-    <el-input v-model="note" :autosize="{minRows:3}" type="textarea" placeholder="输入备注"></el-input>
-    <el-button type="primary" style="margin-top:20px" @click="showNoteDialog=false">确认</el-button>
-  </el-dialog>
 </el-col>
 </el-row>
 </template>
 
 <style scoped>
-p, p.sml {
+p, p.sml, input {
     margin: 5px 0;
     font-size: 20px;
     font-weight: bold;
     text-align: center;
 }
 p.nml {
-    margin: 10px 0;
     font-size: 30px;
-    font-weight: bold;
-    text-align: center;
 }
 p.big {
-    margin: 15px 0;
     font-size: 50px;
-    font-weight: bold;
-    text-align: center;
 }
 p.dayun {
     margin: 0;
