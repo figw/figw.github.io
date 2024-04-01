@@ -2,11 +2,8 @@
 import { computed, ref, watch } from 'vue'
 import {
     CANG_GAN,
-    CHANG_SHENG,
     DI_ZHI,
     JIA_ZI,
-    KONG_WANG,
-    NA_YIN,
     SHI_SHEN,
     TIAN_GAN,
     WU_XING_COLOR,
@@ -40,23 +37,22 @@ const shiZhiShenList = computed(() => shiZhi.value && CANG_GAN[shiZhi.value].map
 const changing = ref('')
 const changingMap = ref({ nianGan, nianZhi, yueGan, yueZhi, riGan, riZhi, shiGan, shiZhi })
 const daYunList = ref([])
+const liuNianList = ref([])
 const note = ref('')
 const qiYunAge = ref(-1)
 const selectList = ref([])
 const sex = ref(0)
-const showDaYunTitle = ref(true)
-const showKongWang = ref(true)
-const showNaYin = ref(true)
 const showSelectDialog = ref(false)
 
 watch(nianGan, i => i && !isSameYinYang(i, nianZhi.value) && (nianZhi.value = ''))
 watch(yueGan, i => i && !isSameYinYang(i, yueZhi.value) && (yueZhi.value = ''))
 watch(riGan, i => i && !isSameYinYang(i, riZhi.value) && (riZhi.value = ''))
 watch(shiGan, i => i && !isSameYinYang(i, shiZhi.value) && (shiZhi.value = ''))
-watch(nianGan, () => generateDaYun())
+watch(nianGan, () => { generateDaYun(); generateLiuNian() })
+watch(nianZhi, () => generateLiuNian())
 watch(yueGan, () => generateDaYun())
 watch(yueZhi, () => generateDaYun())
-watch(sex, () => generateDaYun())
+watch(sex, () => { generateDaYun(); generateLiuNian() })
 
 function changeQiYunAge(index) {
     if (index === 1) qiYunAge.value++
@@ -89,6 +85,13 @@ function generateDaYun() {
     if ((sex.value === 1 ? YIN_GAN : YANG_GAN).includes(nianGan.value)) jiaZiList = jiaZiList.reverse()
     const index = jiaZiList.findIndex(i => i === yueGan.value + yueZhi.value)
     daYunList.value = jiaZiList.slice(index + 1, index + 1 + times)
+}
+function generateLiuNian() {
+    const times = 69
+    if (!nianGan.value || !nianZhi.value) return liuNianList.value = []
+    const jiaZiList = [...JIA_ZI, ...JIA_ZI, ...JIA_ZI]
+    const index = jiaZiList.findIndex(i => i === nianGan.value + nianZhi.value)
+    liuNianList.value = jiaZiList.slice(index, index + times)
 }
 function getColor(key) {
     return WU_XING_COLOR[WU_XING[key]] && 'color:' + WU_XING_COLOR[WU_XING[key]]
@@ -138,51 +141,43 @@ function isSameYinYang(gan, zhi) {
       </el-col>
     </el-row>
   </el-dialog>
-  <!-- 长生 & 空亡 & 纳音 -->
-  <!-- <br />
-  <el-row v-if="riGan">
-    <el-col :span="6"><p v-if="nianZhi" @dblclick="showKongWang=showNaYin=!showNaYin">{{CHANG_SHENG[riGan][nianZhi]}}</p></el-col>
-    <el-col :span="6"><p v-if="yueZhi">{{CHANG_SHENG[riGan][yueZhi]}}</p></el-col>
-    <el-col :span="6"><p v-if="riZhi">{{CHANG_SHENG[riGan][riZhi]}}</p></el-col>
-    <el-col :span="6"><p v-if="shiZhi">{{CHANG_SHENG[riGan][shiZhi]}}</p></el-col>
-  </el-row>
-  <el-row v-show="showKongWang">
-    <el-col :span="6"><p v-if="nianGan&&nianZhi">{{KONG_WANG[nianGan][nianZhi]}}空</p></el-col>
-    <el-col :span="6"><p v-if="yueGan&&yueZhi">{{KONG_WANG[yueGan][yueZhi]}}空</p></el-col>
-    <el-col :span="6"><p v-if="riGan&&riZhi">{{KONG_WANG[riGan][riZhi]}}空</p></el-col>
-    <el-col :span="6"><p v-if="shiGan&&shiZhi">{{KONG_WANG[shiGan][shiZhi]}}空</p></el-col>
-  </el-row>
-  <el-row v-show="showNaYin">
-    <el-col :span="6"><p v-if="nianGan&&nianZhi" :style="getColor(NA_YIN[nianGan][nianZhi])">{{NA_YIN[nianGan][nianZhi]}}</p></el-col>
-    <el-col :span="6"><p v-if="yueGan&&yueZhi" :style="getColor(NA_YIN[yueGan][yueZhi])">{{NA_YIN[yueGan][yueZhi]}}</p></el-col>
-    <el-col :span="6"><p v-if="riGan&&riZhi" :style="getColor(NA_YIN[riGan][riZhi])">{{NA_YIN[riGan][riZhi]}}</p></el-col>
-    <el-col :span="6"><p v-if="shiGan&&shiZhi" :style="getColor(NA_YIN[shiGan][shiZhi])">{{NA_YIN[shiGan][shiZhi]}}</p></el-col>
-  </el-row> -->
   <!-- 备注 -->
   <el-row>
     <input v-model="note" style="border:none;width:100%" />
   </el-row>
   <!-- 大运 -->
-  <el-row justify="space-around" v-show="showDaYunTitle">
+  <el-row v-if="daYunList.length>0">
     <el-col :span="4" v-for="(i,n) in ['一','二','三','四','五','六','七','八','九','十'].slice(0,daYunList.length)">
       <p class="sml" @dblclick="changeQiYunAge(n)">
         {{qiYunAge>-1?qiYunAge+n*10+'岁':i+'运'}}
       </p>
     </el-col>
-  </el-row>
-  <el-row justify="space-around">
-    <el-col :span="4" v-for="(i,n) in daYunList" :style="getColor(i[0])">
-      <p class="nml dayun" @dblclick="n===0&&(showDaYunTitle=!showDaYunTitle)">
+    <el-col :span="4" v-for="i in daYunList" :style="getColor(i[0])">
+      <p class="nml" style="margin:0">
         {{i[0]}}<sub v-if="riGan" style="font-size:18px">{{SHI_SHEN[riGan][i[0]]}}</sub>
       </p>
     </el-col>
-  </el-row>
-  <el-row justify="space-around">
     <el-col :span="4" v-for="i in daYunList" :style="getColor(i[1])">
-      <p class="nml dayun">
+      <p class="nml" style="margin:0">
         {{i[1]}}<sub v-if="riGan" style="font-size:18px">{{SHI_SHEN[riGan][CANG_GAN[i[1]][0]]}}</sub>
       </p>
     </el-col>
+  </el-row>
+  <!-- 流年 -->
+  <el-row v-if="daYunList.length>0&&liuNianList.length>0">
+    <br />
+    <el-scrollbar>
+      <div style="display:flex">
+        <p><br />流<br />年</p>
+        <p v-for="(i,n) in liuNianList">
+          <span style="font-size:18px">{{n+1}}</span>
+          <br />
+          <span :style="getColor(i[0])">{{i[0]}}</span>
+          <br/>
+          <span :style="getColor(i[1])">{{i[1]}}</span>
+        </p>
+      </div>
+    </el-scrollbar>
   </el-row>
 </el-col>
 </el-row>
@@ -190,7 +185,7 @@ function isSameYinYang(gan, zhi) {
 
 <style scoped>
 p, p.sml, input {
-    margin: 5px 0;
+    margin: 5px;
     font-size: 20px;
     font-weight: bold;
     text-align: center;
@@ -200,8 +195,5 @@ p.nml {
 }
 p.big {
     font-size: 50px;
-}
-p.dayun {
-    margin: 0;
 }
 </style>
