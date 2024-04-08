@@ -148,7 +148,7 @@ function isSameYinYang(gan, zhi) {
   <!-- 大运 -->
   <el-row v-if="daYunList.length>0">
     <el-col :span="4" v-for="(i,n) in ['一','二','三','四','五','六','七','八','九','十'].slice(0,daYunList.length)">
-      <p class="sml" @dblclick="changeQiYunAge(n)">
+      <p class="sml" style="margin-left:0;margin-right:0" @dblclick="changeQiYunAge(n)">
         {{qiYunAge>-1?qiYunAge+n*10+'岁':i+'运'}}
       </p>
     </el-col>
@@ -168,9 +168,9 @@ function isSameYinYang(gan, zhi) {
     <br />
     <el-scrollbar>
       <div style="display:flex">
-        <p><br />流<br />年</p>
-        <p v-for="(i,n) in liuNianList">
-          <span style="font-size:18px">{{n+1}}</span>
+        <p class="sml"><br />流<br />年</p>
+        <p class="sml" v-for="(i,n) in liuNianList">
+          <small>{{n+1}}</small>
           <br />
           <span :style="getColor(i[0])">{{i[0]}}</span>
           <br/>
@@ -184,11 +184,13 @@ function isSameYinYang(gan, zhi) {
 </template>
 
 <style scoped>
-p, p.sml, input {
+p, input {
     margin: 5px;
-    font-size: 20px;
-    font-weight: bold;
     text-align: center;
+    font-weight: bold;
+}
+p.sml, input {
+    font-size: 20px;
 }
 p.nml {
     font-size: 30px;
