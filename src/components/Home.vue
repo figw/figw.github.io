@@ -67,10 +67,10 @@ function runSearch(searchEngineUrl) {
 </script>
 
 <template>
-  <div style="display:flex;justify-content:center;align-items:center;height:67vh">
+  <div style="display:flex;justify-content:center;align-items:center;height:80vh">
     <div class="search">
       <el-autocomplete v-model="searchInput" :fetch-suggestions="getSuggest" @keyup.enter="runSearch()"
-                       style="width:90%;max-width:600px" size="large">
+                       style="width:90%;max-width:600px" size="large" placement="top">
       </el-autocomplete>
       <br />
       <el-button class="btn" size="large" round v-for="i in searchEngineConfig" @click="runSearch(i.search)">
