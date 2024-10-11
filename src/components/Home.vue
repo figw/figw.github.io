@@ -1,3 +1,23 @@
+<template>
+  <div style="display:flex;justify-content:center;align-items:center;height:80vh">
+    <div class="search">
+      <el-autocomplete v-model="searchInput" :fetch-suggestions="getSuggest" @keyup.enter="runSearch()"
+                       style="width:90%;max-width:600px" size="large" placement="top">
+      </el-autocomplete>
+      <br />
+      <el-button class="btn" size="large" round v-for="i in searchEngineConfig" @click="runSearch(i.search)">
+        <img :src="i.favicon" alt="" width="20px" />
+        &nbsp;{{i.nameCN}}
+      </el-button>
+      <br /><br />
+      <el-button class="btn" size="large" @click="router.push('/fireworks')">看烟花</el-button>
+      <el-button class="btn" size="large" @click="router.push('/bazi')">四柱排盘</el-button>
+      <el-button class="btn" size="large" @click="router.push('/liuyao')">六爻装卦</el-button>
+      <el-button class="btn" size="large" @click="router.push('/qimen')">奇门排盘</el-button>
+    </div>
+  </div>
+</template>
+
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -65,25 +85,6 @@ function runSearch(searchEngineUrl) {
     return window.open(url, '_blank')
 }
 </script>
-
-<template>
-  <div style="display:flex;justify-content:center;align-items:center;height:80vh">
-    <div class="search">
-      <el-autocomplete v-model="searchInput" :fetch-suggestions="getSuggest" @keyup.enter="runSearch()"
-                       style="width:90%;max-width:600px" size="large" placement="top">
-      </el-autocomplete>
-      <br />
-      <el-button class="btn" size="large" round v-for="i in searchEngineConfig" @click="runSearch(i.search)">
-        <img :src="i.favicon" alt="" width="20px" />
-        &nbsp;{{i.nameCN}}
-      </el-button>
-      <br /><br />
-      <el-button class="btn" size="large" @click="router.push('/fireworks')">看烟花</el-button>
-      <el-button class="btn" size="large" @click="router.push('/bazi')">八字排盘</el-button>
-      <el-button class="btn" size="large" @click="router.push('/liuyao')">六爻装卦</el-button>
-    </div>
-  </div>
-</template>
 
 <style scoped>
 .btn {

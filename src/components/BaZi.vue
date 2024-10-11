@@ -1,3 +1,85 @@
+<template>
+  <el-row justify="center">
+    <el-col :xs="24" :sm="24" :lg="16" :xl="8">
+      <!-- 干支 -->
+      <el-row style="color:#cccccc">
+        <el-col :span="6">
+          <p class="nml" :style="getColor(nianGan)" @dblclick="clearAll()">{{nianGanShen||'年'}}</p>
+          <p class="big" :style="getColor(nianGan)" @click="clickGanZhi('nianGan')">{{nianGan||'干'}}</p>
+          <p class="big" :style="getColor(nianZhi)" @click="clickGanZhi('nianZhi')">{{nianZhi||'支'}}</p>
+          <p class="sml" :style="getColor(i[0])" v-for="i in nianZhiShenList">{{i}}</p>
+        </el-col>
+        <el-col :span="6">
+          <p class="nml" :style="getColor(yueGan)">{{yueGanShen||'月'}}</p>
+          <p class="big" :style="getColor(yueGan)" @click="clickGanZhi('yueGan')">{{yueGan||'干'}}</p>
+          <p class="big" :style="getColor(yueZhi)" @click="clickGanZhi('yueZhi')">{{yueZhi||'支'}}</p>
+          <p class="sml" :style="getColor(i[0])" v-for="i in yueZhiShenList">{{i}}</p>
+        </el-col>
+        <el-col :span="6">
+          <p class="nml" :style="riGan&&'color:black'" @click="sex=(sex+1)%3">{{sex?(sex===1?'乾造':'坤造'):'日主'}}</p>
+          <p class="big" :style="getColor(riGan)" @click="clickGanZhi('riGan')">{{riGan||'干'}}</p>
+          <p class="big" :style="getColor(riZhi)" @click="clickGanZhi('riZhi')">{{riZhi||'支'}}</p>
+          <p class="sml" :style="getColor(i[0])" v-for="i in riZhiShenList">{{i}}</p>
+        </el-col>
+        <el-col :span="6">
+          <p class="nml" :style="getColor(shiGan)">{{shiGanShen||'时'}}</p>
+          <p class="big" :style="getColor(shiGan)" @click="clickGanZhi('shiGan')">{{shiGan||'干'}}</p>
+          <p class="big" :style="getColor(shiZhi)" @click="clickGanZhi('shiZhi')">{{shiZhi||'支'}}</p>
+          <p class="sml" :style="getColor(i[0])" v-for="i in shiZhiShenList">{{i}}</p>
+        </el-col>
+      </el-row>
+      <!-- 干支选择面板 -->
+      <el-dialog v-model="showSelectDialog" width="80%" align-center>
+        <el-row justify="center">
+          <el-col :span="12" v-for="i in [...selectList, '']">
+            <p class="nml" :style="getColor(i)" @click="changingMap[changing]=i;showSelectDialog=false">
+              {{i||'空'}}
+            </p>
+          </el-col>
+        </el-row>
+      </el-dialog>
+      <!-- 备注 -->
+      <el-row>
+        <input v-model="note" style="border:none;width:100%" />
+      </el-row>
+      <!-- 大运 -->
+      <el-row v-if="daYunList.length>0">
+        <el-col :span="4" v-for="(i,n) in ['一','二','三','四','五','六','七','八','九','十'].slice(0,daYunList.length)">
+          <p class="sml" style="margin-left:0;margin-right:0" @dblclick="changeQiYunAge(n)">
+            {{qiYunAge>-1?qiYunAge+n*10+'岁':i+'运'}}
+          </p>
+        </el-col>
+        <el-col :span="4" v-for="i in daYunList" :style="getColor(i[0])">
+          <p class="nml" style="margin:0">
+            {{i[0]}}<sub v-if="riGan" style="font-size:18px">{{SHI_SHEN[riGan][i[0]]}}</sub>
+          </p>
+        </el-col>
+        <el-col :span="4" v-for="i in daYunList" :style="getColor(i[1])">
+          <p class="nml" style="margin:0">
+            {{i[1]}}<sub v-if="riGan" style="font-size:18px">{{SHI_SHEN[riGan][CANG_GAN[i[1]][0]]}}</sub>
+          </p>
+        </el-col>
+      </el-row>
+      <!-- 流年 -->
+      <el-row v-if="daYunList.length>0&&liuNianList.length>0">
+        <br />
+        <el-scrollbar>
+          <div style="display:flex">
+            <p class="sml"><br />流<br />年</p>
+            <p class="sml" v-for="(i,n) in liuNianList">
+              <small>{{n+1}}</small>
+              <br />
+              <span :style="getColor(i[0])">{{i[0]}}</span>
+              <br/>
+              <span :style="getColor(i[1])">{{i[1]}}</span>
+            </p>
+          </div>
+        </el-scrollbar>
+      </el-row>
+    </el-col>
+  </el-row>
+</template>
+
 <script setup>
 import { computed, ref, watch } from 'vue'
 import {
@@ -100,88 +182,6 @@ function isSameYinYang(gan, zhi) {
     return (YANG_GAN.includes(gan) && YANG_ZHI.includes(zhi)) || (YIN_GAN.includes(gan) && YIN_ZHI.includes(zhi))
 }
 </script>
-
-<template>
-<el-row justify="center">
-<el-col :xs="24" :sm="24" :lg="16" :xl="8">
-  <!-- 干支 -->
-  <el-row style="color:#cccccc">
-    <el-col :span="6">
-      <p class="nml" :style="getColor(nianGan)" @dblclick="clearAll()">{{nianGanShen||'年'}}</p>
-      <p class="big" :style="getColor(nianGan)" @click="clickGanZhi('nianGan')">{{nianGan||'干'}}</p>
-      <p class="big" :style="getColor(nianZhi)" @click="clickGanZhi('nianZhi')">{{nianZhi||'支'}}</p>
-      <p class="sml" :style="getColor(i[0])" v-for="i in nianZhiShenList">{{i}}</p>
-    </el-col>
-    <el-col :span="6">
-      <p class="nml" :style="getColor(yueGan)">{{yueGanShen||'月'}}</p>
-      <p class="big" :style="getColor(yueGan)" @click="clickGanZhi('yueGan')">{{yueGan||'干'}}</p>
-      <p class="big" :style="getColor(yueZhi)" @click="clickGanZhi('yueZhi')">{{yueZhi||'支'}}</p>
-      <p class="sml" :style="getColor(i[0])" v-for="i in yueZhiShenList">{{i}}</p>
-    </el-col>
-    <el-col :span="6">
-      <p class="nml" :style="riGan&&'color:black'" @click="sex=(sex+1)%3">{{sex?(sex===1?'乾造':'坤造'):'日主'}}</p>
-      <p class="big" :style="getColor(riGan)" @click="clickGanZhi('riGan')">{{riGan||'干'}}</p>
-      <p class="big" :style="getColor(riZhi)" @click="clickGanZhi('riZhi')">{{riZhi||'支'}}</p>
-      <p class="sml" :style="getColor(i[0])" v-for="i in riZhiShenList">{{i}}</p>
-    </el-col>
-    <el-col :span="6">
-      <p class="nml" :style="getColor(shiGan)">{{shiGanShen||'时'}}</p>
-      <p class="big" :style="getColor(shiGan)" @click="clickGanZhi('shiGan')">{{shiGan||'干'}}</p>
-      <p class="big" :style="getColor(shiZhi)" @click="clickGanZhi('shiZhi')">{{shiZhi||'支'}}</p>
-      <p class="sml" :style="getColor(i[0])" v-for="i in shiZhiShenList">{{i}}</p>
-    </el-col>
-  </el-row>
-  <!-- 干支选择面板 -->
-  <el-dialog v-model="showSelectDialog" width="80%" align-center>
-    <el-row justify="center">
-      <el-col :span="12" v-for="i in [...selectList, '']">
-        <p class="nml" :style="getColor(i)" @click="changingMap[changing]=i;showSelectDialog=false">
-          {{i||'空'}}
-        </p>
-      </el-col>
-    </el-row>
-  </el-dialog>
-  <!-- 备注 -->
-  <el-row>
-    <input v-model="note" style="border:none;width:100%" />
-  </el-row>
-  <!-- 大运 -->
-  <el-row v-if="daYunList.length>0">
-    <el-col :span="4" v-for="(i,n) in ['一','二','三','四','五','六','七','八','九','十'].slice(0,daYunList.length)">
-      <p class="sml" style="margin-left:0;margin-right:0" @dblclick="changeQiYunAge(n)">
-        {{qiYunAge>-1?qiYunAge+n*10+'岁':i+'运'}}
-      </p>
-    </el-col>
-    <el-col :span="4" v-for="i in daYunList" :style="getColor(i[0])">
-      <p class="nml" style="margin:0">
-        {{i[0]}}<sub v-if="riGan" style="font-size:18px">{{SHI_SHEN[riGan][i[0]]}}</sub>
-      </p>
-    </el-col>
-    <el-col :span="4" v-for="i in daYunList" :style="getColor(i[1])">
-      <p class="nml" style="margin:0">
-        {{i[1]}}<sub v-if="riGan" style="font-size:18px">{{SHI_SHEN[riGan][CANG_GAN[i[1]][0]]}}</sub>
-      </p>
-    </el-col>
-  </el-row>
-  <!-- 流年 -->
-  <el-row v-if="daYunList.length>0&&liuNianList.length>0">
-    <br />
-    <el-scrollbar>
-      <div style="display:flex">
-        <p class="sml"><br />流<br />年</p>
-        <p class="sml" v-for="(i,n) in liuNianList">
-          <small>{{n+1}}</small>
-          <br />
-          <span :style="getColor(i[0])">{{i[0]}}</span>
-          <br/>
-          <span :style="getColor(i[1])">{{i[1]}}</span>
-        </p>
-      </div>
-    </el-scrollbar>
-  </el-row>
-</el-col>
-</el-row>
-</template>
 
 <style scoped>
 p, input {

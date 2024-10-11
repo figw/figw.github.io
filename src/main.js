@@ -9,6 +9,7 @@ import BaZi from './components/BaZi.vue'
 import Fireworks from './components/Fireworks.vue'
 import Home from './components/Home.vue'
 import LiuYao from './components/LiuYao.vue'
+import QiMen from "./components/QiMen.vue";
 
 const routes = [
     {
@@ -26,6 +27,10 @@ const routes = [
     {
         path: '/liuyao',
         component: LiuYao,
+    },
+    {
+        path: '/qimen',
+        component: QiMen,
     },
 ]
 

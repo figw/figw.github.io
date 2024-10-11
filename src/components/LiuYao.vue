@@ -1,3 +1,36 @@
+<template>
+  <el-row justify="center" v-show="yao[0]<0">
+    <el-col>
+      <p class="pFont" @click="dialogMark=5; dialogVisible=true"            >第一次{{yao[5]<0 ? '' : '：'+yao[5]+' 字'}}</p>
+      <p class="pFont" @click="dialogMark=4; yao[5]<0||(dialogVisible=true)">第二次{{yao[4]<0 ? '' : '：'+yao[4]+' 字'}}</p>
+      <p class="pFont" @click="dialogMark=3; yao[4]<0||(dialogVisible=true)">第三次{{yao[3]<0 ? '' : '：'+yao[3]+' 字'}}</p>
+      <p class="pFont" @click="dialogMark=2; yao[3]<0||(dialogVisible=true)">第四次{{yao[2]<0 ? '' : '：'+yao[2]+' 字'}}</p>
+      <p class="pFont" @click="dialogMark=1; yao[2]<0||(dialogVisible=true)">第五次{{yao[1]<0 ? '' : '：'+yao[1]+' 字'}}</p>
+      <p class="pFont" @click="dialogMark=0; yao[1]<0||(dialogVisible=true)">第六次{{yao[0]<0 ? '' : '：'+yao[0]+' 字'}}</p>
+    </el-col>
+  </el-row>
+  <el-dialog v-model="dialogVisible" width="80%" align-center>
+    <el-row justify="center">
+      <el-col>
+        <p class="pFont" @click="yao[dialogMark]=0; dialogVisible=false; dialogMark===0&&main()">0 字</p>
+        <p class="pFont" @click="yao[dialogMark]=1; dialogVisible=false; dialogMark===0&&main()">1 字</p>
+        <p class="pFont" @click="yao[dialogMark]=2; dialogVisible=false; dialogMark===0&&main()">2 字</p>
+        <p class="pFont" @click="yao[dialogMark]=3; dialogVisible=false; dialogMark===0&&main()">3 字</p>
+      </el-col>
+    </el-row>
+  </el-dialog>
+  <el-row justify="center" v-show="yao[0]>=0">
+    <el-col>
+      <p class="pFont">{{benGuaName.slice(3)}}</p>
+      <p class="pFont" v-for="(j, i) in 6">{{ benGuaLiuQin[i] + '&emsp;' + (shiYing[i]||'&emsp;') + '&emsp;' + (benGua[i]?'▅▅▅▅▅':'▅▅&emsp;▅▅') + (false?'&emsp;'+benGuaNaJia[i]:'') + '&emsp;' + (yao[i]===0?'〇':(yao[i]===3?'✖':'&emsp;')) }}</p>
+    </el-col>
+    <el-col v-show="false">
+      <p class="pFont">{{bianGuaName.slice(3)}}&emsp;&emsp;</p>
+      <p class="pFont" v-for="(j, i) in 6">{{ (yao[i]===0||yao[i]===3)?bianGuaLiuQin[i]:'&emsp;&emsp;' + '&emsp;' + (bianGua[i]?'▅▅▅▅▅':'▅▅&emsp;▅▅') + '&emsp;' + bianGuaNaJia[i] }}</p>
+    </el-col>
+  </el-row>
+</template>
+
 <script setup>
 import { ref } from 'vue'
 import { LIU_QIN, NA_JIA, WU_XING } from '../assets/constant.js'
@@ -60,39 +93,6 @@ function main() {
     bianGuaLiuQin.value = bianGuaNaJia.value.map(i => LIU_QIN[guaGongWuXing][i[2]])
 }
 </script>
-
-<template>
-  <el-row justify="center" v-show="yao[0]<0">
-    <el-col>
-      <p class="pFont" @click="dialogMark=5; dialogVisible=true"            >第一次{{yao[5]<0 ? '' : '：'+yao[5]+' 字'}}</p>
-      <p class="pFont" @click="dialogMark=4; yao[5]<0||(dialogVisible=true)">第二次{{yao[4]<0 ? '' : '：'+yao[4]+' 字'}}</p>
-      <p class="pFont" @click="dialogMark=3; yao[4]<0||(dialogVisible=true)">第三次{{yao[3]<0 ? '' : '：'+yao[3]+' 字'}}</p>
-      <p class="pFont" @click="dialogMark=2; yao[3]<0||(dialogVisible=true)">第四次{{yao[2]<0 ? '' : '：'+yao[2]+' 字'}}</p>
-      <p class="pFont" @click="dialogMark=1; yao[2]<0||(dialogVisible=true)">第五次{{yao[1]<0 ? '' : '：'+yao[1]+' 字'}}</p>
-      <p class="pFont" @click="dialogMark=0; yao[1]<0||(dialogVisible=true)">第六次{{yao[0]<0 ? '' : '：'+yao[0]+' 字'}}</p>
-    </el-col>
-  </el-row>
-  <el-dialog v-model="dialogVisible" width="80%" align-center>
-    <el-row justify="center">
-      <el-col>
-        <p class="pFont" @click="yao[dialogMark]=0; dialogVisible=false; dialogMark===0&&main()">0 字</p>
-        <p class="pFont" @click="yao[dialogMark]=1; dialogVisible=false; dialogMark===0&&main()">1 字</p>
-        <p class="pFont" @click="yao[dialogMark]=2; dialogVisible=false; dialogMark===0&&main()">2 字</p>
-        <p class="pFont" @click="yao[dialogMark]=3; dialogVisible=false; dialogMark===0&&main()">3 字</p>
-      </el-col>
-    </el-row>
-  </el-dialog>
-  <el-row justify="center" v-show="yao[0]>=0">
-    <el-col>
-      <p class="pFont">{{benGuaName.slice(3)}}</p>
-      <p class="pFont" v-for="(j, i) in 6">{{ benGuaLiuQin[i] + '&emsp;' + (shiYing[i]||'&emsp;') + '&emsp;' + (benGua[i]?'▅▅▅▅▅':'▅▅&emsp;▅▅') + (false?'&emsp;'+benGuaNaJia[i]:'') + '&emsp;' + (yao[i]===0?'〇':(yao[i]===3?'✖':'&emsp;')) }}</p>
-    </el-col>
-    <el-col v-show="false">
-      <p class="pFont">{{bianGuaName.slice(3)}}&emsp;&emsp;</p>
-      <p class="pFont" v-for="(j, i) in 6">{{ (yao[i]===0||yao[i]===3)?bianGuaLiuQin[i]:'&emsp;&emsp;' + '&emsp;' + (bianGua[i]?'▅▅▅▅▅':'▅▅&emsp;▅▅') + '&emsp;' + bianGuaNaJia[i] }}</p>
-    </el-col>
-  </el-row>
-</template>
 
 <style scoped>
 p.pFont {
