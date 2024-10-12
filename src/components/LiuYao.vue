@@ -24,7 +24,7 @@
       <p class="pFont">{{benGuaName.slice(3)}}</p>
       <p class="pFont" v-for="(j, i) in 6">{{ benGuaLiuQin[i] + '&emsp;' + (shiYing[i]||'&emsp;') + '&emsp;' + (benGua[i]?'▅▅▅▅▅':'▅▅&emsp;▅▅') + (false?'&emsp;'+benGuaNaJia[i]:'') + '&emsp;' + (yao[i]===0?'〇':(yao[i]===3?'✖':'&emsp;')) }}</p>
     </el-col>
-    <el-col v-show="false">
+    <el-col>
       <p class="pFont">{{bianGuaName.slice(3)}}&emsp;&emsp;</p>
       <p class="pFont" v-for="(j, i) in 6">{{ (yao[i]===0||yao[i]===3)?bianGuaLiuQin[i]:'&emsp;&emsp;' + '&emsp;' + (bianGua[i]?'▅▅▅▅▅':'▅▅&emsp;▅▅') + '&emsp;' + bianGuaNaJia[i] }}</p>
     </el-col>
