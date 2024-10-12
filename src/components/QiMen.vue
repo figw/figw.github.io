@@ -126,7 +126,7 @@ import {
     DI_ZHI,
     JIA_ZI, MEN_F,
     MEN_Z,
-    QI_YI,
+    QI_YI, SHEN_F,
     SHEN_Z,
     TIAN_GAN, XING_F, XING_Z,
     XUN_SHOU,
@@ -156,12 +156,20 @@ function paiQiYi() {
 function paiFeiPan() {
     zhiFu.value = XING_F[xunShouGong - 1]
     zhiShi.value = MEN_F[xunShouGong - 1]
-    cfg.value[shiGanGong][5] = zhiFu.value
-    cfg.value[shiZhiGong][8] = zhiShi.value
-    // for (let i = 0; i < 9; i++) {
-    //     const index = XING_F.indexOf(zhiFu.value)
-    //     cfg.value[][5]
+    for (let i = 0; i < 9; i++) {
+        const index = XING_F.indexOf(zhiFu.value)
+        cfg.value[(shiGanGong + i - 1) % 9 + 1][5] = [...XING_F, ...XING_F][index + i]
+    }
+    // for (let i = 0; i < 8; i++) {
+    //     const tmp = (shiZhiGong + i - 1) % 9 + 1
+    //     if (tmp === 5) continue
+    //     const index = MEN_F.indexOf(zhiShi.value)
+    //     cfg.value[tmp][8] = [...MEN_F, ...MEN_F][index + i]
     // }
+    for (let i = 0; i < 9; i++) {
+        const shenList = juShu.value > 0 ? SHEN_F : [SHEN_F[0], ...SHEN_F.slice().reverse()]
+        cfg.value[(shiGanGong + i - 1) % 9 + 1][2] = shenList[i]
+    }
 }
 function paiZhuanPan() {
     const transer = [1, 8, 3, 4, 9, 2, 7, 6]
