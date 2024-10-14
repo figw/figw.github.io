@@ -149,6 +149,10 @@ const zhiFu = ref('')
 const zhiShi = ref('')
 const cfg = ref({1:{},2:{},3:{},4:{},5:{},6:{},7:{},8:{},9:{}})
 
+const $ji = () => juShu.value > 0 ? 8 : 2
+const $jiXing = () => juShu.value > 0 ? '任' : '芮'
+const $jiMen = () => juShu.value > 0 ? '生' : '死'
+
 function paiQiYi() { // 地盘奇仪
     const qiYiList = juShu.value > 0 ? QI_YI : [QI_YI[0], ...QI_YI.slice().reverse()]
     for (let i = 0; i < 9; i++) {
@@ -157,7 +161,7 @@ function paiQiYi() { // 地盘奇仪
 }
 function paiFeiPan() { // 飞盘
     zhiFu.value = XING_F[xunShouGong - 1]
-    zhiShi.value = xunShouGong === 5 ? '死' : [...MEN_F.slice(0, 4), '', ...MEN_F.slice(-4)][xunShouGong - 1]
+    zhiShi.value = xunShouGong === 5 ? $jiMen() : [...MEN_F.slice(0, 4), '', ...MEN_F.slice(-4)][xunShouGong - 1]
     for (let i = 0; i < 9; i++) { // 星
         cfg.value[(shiGanGong + i - 1) % 9 + 1][5] = [...XING_F, ...XING_F][XING_F.indexOf(zhiFu.value) + i]
     }
@@ -166,7 +170,7 @@ function paiFeiPan() { // 飞盘
     }
     let mark = 0
     for (let i = 0; i < 8; i++) { // 门
-        if (shiZhiGong === 5) shiZhiGong = 2
+        if (shiZhiGong === 5) shiZhiGong = $ji()
         if ((shiZhiGong + i) % 9 === 5) mark = 1
         cfg.value[(shiZhiGong + i + mark - 1) % 9 + 1][8] = [...MEN_F, ...MEN_F][MEN_F.indexOf(zhiShi.value) + i]
     }
@@ -178,20 +182,20 @@ function paiFeiPan() { // 飞盘
 function paiZhuanPan() { // 转盘
     const transer = [1,8,3,4,9,2,7,6, 1,8,3,4,9,2,7,6]
     zhiFu.value = xunShouGong === 5 ? '禽' : XING_Z[transer.indexOf(xunShouGong)]
-    zhiShi.value = xunShouGong === 5 ? '死' : MEN_Z[transer.indexOf(xunShouGong)]
+    zhiShi.value = xunShouGong === 5 ? $jiMen() : MEN_Z[transer.indexOf(xunShouGong)]
     for (let i = 0; i < 8; i++) { // 星
-        const j = transer[transer.indexOf(shiGanGong === 5 ? 2 : shiGanGong) + i]
-        cfg.value[j][5] = [...XING_Z, ...XING_Z][XING_Z.indexOf(zhiFu.value === '禽' ? '芮' : zhiFu.value) + i]
+        const j = transer[transer.indexOf(shiGanGong === 5 ? $ji() : shiGanGong) + i]
+        cfg.value[j][5] = [...XING_Z, ...XING_Z][XING_Z.indexOf(zhiFu.value === '禽' ? $jiXing() : zhiFu.value) + i]
     }
     for (let i = 0; i < 8; i++) { // 天盘奇仪
         cfg.value[+Object.keys(cfg.value).find(k => cfg.value[k][5] === XING_Z[i])][6] = cfg.value[transer[i]][9]
     }
     for (let i = 0; i < 8; i++) { // 门
-        const j = transer[transer.indexOf(shiZhiGong === 5 ? 2 : shiZhiGong) + i]
+        const j = transer[transer.indexOf(shiZhiGong === 5 ? $ji() : shiZhiGong) + i]
         cfg.value[j][8] = [...MEN_Z, ...MEN_Z][MEN_Z.indexOf(zhiShi.value) + i]
     }
     for (let i = 0; i < 8; i++) { // 神
-        const j = transer[transer.indexOf(shiGanGong === 5 ? 2 : shiGanGong) + i]
+        const j = transer[transer.indexOf(shiGanGong === 5 ? $ji() : shiGanGong) + i]
         const shenList = juShu.value > 0 ? SHEN_Z : [SHEN_Z[0], ...SHEN_Z.slice().reverse()]
         cfg.value[j][2] = shenList[i]
     }
