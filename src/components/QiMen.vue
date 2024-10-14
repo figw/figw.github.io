@@ -155,26 +155,37 @@ function paiQiYi() {
 }
 function paiFeiPan() {
     zhiFu.value = XING_F[xunShouGong - 1]
-    zhiShi.value = MEN_F[xunShouGong - 1]
+    zhiShi.value = xunShouGong === 5 ? '死' : [...MEN_F.slice(0, 4), '', ...MEN_F.slice(-3)][xunShouGong - 1]
     for (let i = 0; i < 9; i++) {
-        const index = XING_F.indexOf(zhiFu.value)
-        cfg.value[(shiGanGong + i - 1) % 9 + 1][5] = [...XING_F, ...XING_F][index + i]
+        cfg.value[(shiGanGong + i - 1) % 9 + 1][5] = [...XING_F, ...XING_F][XING_F.indexOf(zhiFu.value) + i]
     }
-    // for (let i = 0; i < 8; i++) {
-    //     const tmp = (shiZhiGong + i - 1) % 9 + 1
-    //     if (tmp === 5) continue
-    //     const index = MEN_F.indexOf(zhiShi.value)
-    //     cfg.value[tmp][8] = [...MEN_F, ...MEN_F][index + i]
-    // }
+    let mark = 0
+    for (let i = 0; i < 8; i++) {
+        if ((shiZhiGong + i) % 9 === 5) mark = 1
+        cfg.value[(shiZhiGong + i + mark - 1) % 9 + 1][8] = [...MEN_F, ...MEN_F][MEN_F.indexOf(zhiShi.value) + i]
+    }
     for (let i = 0; i < 9; i++) {
         const shenList = juShu.value > 0 ? SHEN_F : [SHEN_F[0], ...SHEN_F.slice().reverse()]
         cfg.value[(shiGanGong + i - 1) % 9 + 1][2] = shenList[i]
     }
 }
 function paiZhuanPan() {
-    const transer = [1, 8, 3, 4, 9, 2, 7, 6]
+    const transer = [1,8,3,4,9,2,7,6, 1,8,3,4,9,2,7,6]
     zhiFu.value = xunShouGong === 5 ? '禽' : XING_Z[transer.indexOf(xunShouGong)]
-    zhiShi.value = xunShouGong === 5 ? '中' : MEN_Z[transer.indexOf(xunShouGong)]
+    zhiShi.value = xunShouGong === 5 ? '死' : MEN_Z[transer.indexOf(xunShouGong)]
+    for (let i = 0; i < 8; i++) {
+        const j = transer[transer.indexOf(shiGanGong) + i]
+        cfg.value[j][5] = [...XING_Z, ...XING_Z][XING_Z.indexOf(zhiFu.value === '禽' ? '芮' : zhiFu.value) + i]
+    }
+    for (let i = 0; i < 8; i++) {
+        const j = transer[transer.indexOf(shiZhiGong) + i]
+        cfg.value[j][8] = [...MEN_Z, ...MEN_Z][MEN_Z.indexOf(zhiShi.value) + i]
+    }
+    for (let i = 0; i < 8; i++) {
+        const j = transer[transer.indexOf(shiGanGong) + i]
+        const shenList = juShu.value > 0 ? SHEN_Z : [SHEN_Z[0], ...SHEN_Z.slice().reverse()]
+        cfg.value[j][2] = shenList[i]
+    }
 }
 function paiPan(type) {
     if (!shiGan.value || !shiZhi.value || !juShu.value) return
