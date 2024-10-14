@@ -166,6 +166,7 @@ function paiFeiPan() { // 飞盘
     }
     let mark = 0
     for (let i = 0; i < 8; i++) { // 门
+        if (shiZhiGong === 5) shiZhiGong = 2
         if ((shiZhiGong + i) % 9 === 5) mark = 1
         cfg.value[(shiZhiGong + i + mark - 1) % 9 + 1][8] = [...MEN_F, ...MEN_F][MEN_F.indexOf(zhiShi.value) + i]
     }
