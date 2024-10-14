@@ -157,7 +157,7 @@ function paiQiYi() { // 地盘奇仪
 }
 function paiFeiPan() { // 飞盘
     zhiFu.value = XING_F[xunShouGong - 1]
-    zhiShi.value = xunShouGong === 5 ? '死' : [...MEN_F.slice(0, 4), '', ...MEN_F.slice(-3)][xunShouGong - 1]
+    zhiShi.value = xunShouGong === 5 ? '死' : [...MEN_F.slice(0, 4), '', ...MEN_F.slice(-4)][xunShouGong - 1]
     for (let i = 0; i < 9; i++) { // 星
         cfg.value[(shiGanGong + i - 1) % 9 + 1][5] = [...XING_F, ...XING_F][XING_F.indexOf(zhiFu.value) + i]
     }
