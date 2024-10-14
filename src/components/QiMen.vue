@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <select v-model="shiGan">
+  <div class="header">
+    <select v-model="shiGan" @change="shiZhi=''">
       <option disabled value="">时干</option>
       <option v-for="i in TIAN_GAN" :value="i">{{i}}</option>
     </select>
@@ -15,9 +15,9 @@
     </select>
     <button @click="paiPan('z')">排转盘</button>
     <button @click="paiPan('f')">排飞盘</button>
-  </div>
-  <div>
-    <span>&nbsp;&nbsp;旬首：{{xunShou}}&emsp;&emsp;值符：{{zhiFu}}&emsp;&emsp;值使：{{zhiShi}}</span>
+    <div>
+      <span>旬首：{{xunShou}}&emsp;&emsp;值符：{{zhiFu}}&emsp;&emsp;值使：{{zhiShi}}</span>
+    </div>
   </div>
   <div class="pan">
     <div class="gong gong-4">
@@ -179,18 +179,18 @@ function paiZhuanPan() { // 转盘
     zhiFu.value = xunShouGong === 5 ? '禽' : XING_Z[transer.indexOf(xunShouGong)]
     zhiShi.value = xunShouGong === 5 ? '死' : MEN_Z[transer.indexOf(xunShouGong)]
     for (let i = 0; i < 8; i++) { // 星
-        const j = transer[transer.indexOf(shiGanGong) + i]
+        const j = transer[transer.indexOf(shiGanGong === 5 ? 2 : shiGanGong) + i]
         cfg.value[j][5] = [...XING_Z, ...XING_Z][XING_Z.indexOf(zhiFu.value === '禽' ? '芮' : zhiFu.value) + i]
     }
     for (let i = 0; i < 8; i++) { // 天盘奇仪
         cfg.value[+Object.keys(cfg.value).find(k => cfg.value[k][5] === XING_Z[i])][6] = cfg.value[transer[i]][9]
     }
     for (let i = 0; i < 8; i++) { // 门
-        const j = transer[transer.indexOf(shiZhiGong) + i]
+        const j = transer[transer.indexOf(shiZhiGong === 5 ? 2 : shiZhiGong) + i]
         cfg.value[j][8] = [...MEN_Z, ...MEN_Z][MEN_Z.indexOf(zhiShi.value) + i]
     }
     for (let i = 0; i < 8; i++) { // 神
-        const j = transer[transer.indexOf(shiGanGong) + i]
+        const j = transer[transer.indexOf(shiGanGong === 5 ? 2 : shiGanGong) + i]
         const shenList = juShu.value > 0 ? SHEN_Z : [SHEN_Z[0], ...SHEN_Z.slice().reverse()]
         cfg.value[j][2] = shenList[i]
     }
@@ -210,8 +210,11 @@ function paiPan(type) {
 </script>
 
 <style scoped>
-select, button {
-    margin: 10px;
+.header {
+    select, button, span {
+        margin: 10px;
+        font-size: 18px;
+    }
 }
 .pan {
     display: flex;
