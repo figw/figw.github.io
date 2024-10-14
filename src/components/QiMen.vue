@@ -16,7 +16,9 @@
     <button @click="paiPan('z')">排转盘</button>
     <button @click="paiPan('f')">排飞盘</button>
   </div>
-  <span>旬首：{{xunShou}}&emsp;&emsp;值符：{{zhiFu}}&emsp;&emsp;值使：{{zhiShi}}</span>
+  <div>
+    <span>&nbsp;&nbsp;旬首：{{xunShou}}&emsp;&emsp;值符：{{zhiFu}}&emsp;&emsp;值使：{{zhiShi}}</span>
+  </div>
   <div class="pan">
     <div class="gong gong-4">
       <div class="gong inner inner-1">{{cfg[4][1]}}</div>
@@ -209,13 +211,17 @@ function paiPan(type) {
 
 <style scoped>
 select, button {
-    margin: 5px;
+    margin: 10px;
 }
 .pan {
     display: flex;
     flex-wrap: wrap;
-    height: 30vh;
-    width: 30vh;
+    height: 95vw;
+    width: 95vw;
+    max-height: 500px;
+    max-width: 500px;
+    margin: 10px 2.5vw;
+    font-size: 18px;
 }
 .gong {
     display: flex;
