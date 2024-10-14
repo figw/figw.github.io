@@ -199,6 +199,9 @@ function paiZhuanPan() { // 转盘
         const shenList = juShu.value > 0 ? SHEN_Z : [SHEN_Z[0], ...SHEN_Z.slice().reverse()]
         cfg.value[j][2] = shenList[i]
     }
+    // 天禽寄宫
+    const jiGongNum = +Object.keys(cfg.value).find(k => cfg.value[k][5] === $jiXing())
+    cfg.value[jiGongNum][4] = '禽' + cfg.value[5][9]
 }
 function paiPan(type) {
     if (!shiGan.value || !shiZhi.value || !juShu.value) return
