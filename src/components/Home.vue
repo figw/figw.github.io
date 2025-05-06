@@ -12,7 +12,8 @@
       <br /><br />
       <el-button class="btn" size="large" @click="router.push('/bazi')">四柱排盘</el-button>
       <el-button class="btn" size="large" @click="router.push('/liuyao')">六爻装卦</el-button>
-      <el-button class="btn" size="large" @click="router.push('/qimen')">奇门排盘</el-button>
+      <el-button class="btn" size="large" @click="router.push('/meihua')">梅花易数</el-button>
+      <el-button class="btn" size="large" @click="router.push('/qimen')">奇门遁甲</el-button>
     </div>
   </div>
 </template>

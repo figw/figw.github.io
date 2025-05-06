@@ -1,26 +1,26 @@
 <template>
   <div class="header">
-    <select v-model="yao[5]">
+    <select v-model="yao[5]" @change="main()">
       <option disabled value="-1">第一次</option>
       <option v-for="i in 4" :value="i-1">{{i-1}} 字</option>
     </select>
-    <select v-model="yao[4]" :disabled="yao[5]<0">
+    <select v-model="yao[4]" @change="main()" :disabled="yao[5]<0">
       <option disabled value="-1">第二次</option>
       <option v-for="i in 4" :value="i-1">{{i-1}} 字</option>
     </select>
-    <select v-model="yao[3]" :disabled="yao[4]<0">
+    <select v-model="yao[3]" @change="main()" :disabled="yao[4]<0">
       <option disabled value="-1">第三次</option>
       <option v-for="i in 4" :value="i-1">{{i-1}} 字</option>
     </select>
-    <select v-model="yao[2]" :disabled="yao[3]<0">
+    <select v-model="yao[2]" @change="main()" :disabled="yao[3]<0">
       <option disabled value="-1">第四次</option>
       <option v-for="i in 4" :value="i-1">{{i-1}} 字</option>
     </select>
-    <select v-model="yao[1]" :disabled="yao[2]<0">
+    <select v-model="yao[1]" @change="main()" :disabled="yao[2]<0">
       <option disabled value="-1">第五次</option>
       <option v-for="i in 4" :value="i-1">{{i-1}} 字</option>
     </select>
-    <select v-model="yao[0]" :disabled="yao[1]<0" @change="main()">
+    <select v-model="yao[0]" @change="main()" :disabled="yao[1]<0">
       <option disabled value="-1">第六次</option>
       <option v-for="i in 4" :value="i-1">{{i-1}} 字</option>
     </select>
@@ -49,11 +49,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import { WU_XING } from '../assets/constant.js'
+import { BA_GUA_MAP, WU_XING } from '../assets/constant.js'
 
-const gua8 = {
-    '111': '乾', '010': '坎', '100': '艮', '001': '震', '110': '巽', '101': '离', '000': '坤', '011': '兑'
-}
 const gua64 = [
     '乾乾-乾卦', '乾巽-天风姤', '乾艮-天山遁', '乾坤-天地否', '巽坤-风地观', '艮坤-山地剥', '离坤-火地晋', '离乾-火天大有',
     '坎坎-坎卦', '坎兑-水泽节', '坎震-水雷屯', '坎离-水火既济', '兑离-泽火革', '震离-雷火丰', '坤离-地火明夷', '坤坎-地水师',
@@ -76,16 +73,19 @@ const shiYing = ref(['', '', '', '', '', ''])
 const yao = ref([-1, -1, -1, -1, -1, -1])
 
 function main() {
+    benGua.value = []
+    bianGua.value = []
     for (const i of yao.value) {
-        if (i === 0)      { benGua.value.push(1); bianGua.value.push(0) }
+        if (i === -1) return
+        else if (i === 0) { benGua.value.push(1); bianGua.value.push(0) }
         else if (i === 1) { benGua.value.push(0); bianGua.value.push(0) }
         else if (i === 2) { benGua.value.push(1); bianGua.value.push(1) }
         else if (i === 3) { benGua.value.push(0); bianGua.value.push(1) }
     }
-    const benShangGua = gua8[benGua.value.slice(0, 3).join('')]
-    const benXiaGua = gua8[benGua.value.slice(3, 6).join('')]
-    const bianShangGua = gua8[bianGua.value.slice(0, 3).join('')]
-    const bianXiaGua = gua8[bianGua.value.slice(3, 6).join('')]
+    const benShangGua = BA_GUA_MAP[benGua.value.slice(0, 3).join('')]
+    const benXiaGua = BA_GUA_MAP[benGua.value.slice(3, 6).join('')]
+    const bianShangGua = BA_GUA_MAP[bianGua.value.slice(0, 3).join('')]
+    const bianXiaGua = BA_GUA_MAP[bianGua.value.slice(3, 6).join('')]
     const guaGongIndex = gua64.findIndex(i => i.indexOf(benShangGua + benXiaGua) === 0)
     const guaGongWuXing = WU_XING[gua64[guaGongIndex - guaGongIndex % 8][0]]
     switch (guaGongIndex % 8) {
@@ -127,10 +127,10 @@ const NA_JIA = {
 
 <style scoped>
 .header {
-  select, button, span {
-    margin: 10px;
-    font-size: 18px;
-  }
+    select, button, span {
+        margin: 10px;
+        font-size: 18px;
+    }
 }
 
 p {

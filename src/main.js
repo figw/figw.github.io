@@ -8,6 +8,7 @@ import App from './App.vue'
 import BaZi from './components/BaZi.vue'
 import Home from './components/Home.vue'
 import LiuYao from './components/LiuYao.vue'
+import MeiHua from './components/MeiHua.vue'
 import QiMen from "./components/QiMen.vue";
 
 const routes = [
@@ -22,6 +23,10 @@ const routes = [
     {
         path: '/liuyao',
         component: LiuYao,
+    },
+    {
+        path: '/meihua',
+        component: MeiHua,
     },
     {
         path: '/qimen',
