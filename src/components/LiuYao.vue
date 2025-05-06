@@ -1,34 +1,50 @@
 <template>
-  <el-row justify="center" v-show="yao[0]<0">
-    <el-col>
-      <p class="pFont" @click="dialogMark=5; dialogVisible=true"            >第一次{{yao[5]<0 ? '' : '：'+yao[5]+' 字'}}</p>
-      <p class="pFont" @click="dialogMark=4; yao[5]<0||(dialogVisible=true)">第二次{{yao[4]<0 ? '' : '：'+yao[4]+' 字'}}</p>
-      <p class="pFont" @click="dialogMark=3; yao[4]<0||(dialogVisible=true)">第三次{{yao[3]<0 ? '' : '：'+yao[3]+' 字'}}</p>
-      <p class="pFont" @click="dialogMark=2; yao[3]<0||(dialogVisible=true)">第四次{{yao[2]<0 ? '' : '：'+yao[2]+' 字'}}</p>
-      <p class="pFont" @click="dialogMark=1; yao[2]<0||(dialogVisible=true)">第五次{{yao[1]<0 ? '' : '：'+yao[1]+' 字'}}</p>
-      <p class="pFont" @click="dialogMark=0; yao[1]<0||(dialogVisible=true)">第六次{{yao[0]<0 ? '' : '：'+yao[0]+' 字'}}</p>
-    </el-col>
-  </el-row>
-  <el-dialog v-model="dialogVisible" width="80%" align-center>
-    <el-row justify="center">
-      <el-col>
-        <p class="pFont" @click="yao[dialogMark]=0; dialogVisible=false; dialogMark===0&&main()">0 字</p>
-        <p class="pFont" @click="yao[dialogMark]=1; dialogVisible=false; dialogMark===0&&main()">1 字</p>
-        <p class="pFont" @click="yao[dialogMark]=2; dialogVisible=false; dialogMark===0&&main()">2 字</p>
-        <p class="pFont" @click="yao[dialogMark]=3; dialogVisible=false; dialogMark===0&&main()">3 字</p>
-      </el-col>
-    </el-row>
-  </el-dialog>
-  <el-row justify="center" v-show="yao[0]>=0">
-    <el-col>
-      <p class="pFont">{{benGuaName.slice(3)}}</p>
-      <p class="pFont" v-for="(j, i) in 6">{{ benGuaLiuQin[i] + '&emsp;' + (shiYing[i]||'&emsp;') + '&emsp;' + (benGua[i]?'▅▅▅▅▅':'▅▅&emsp;▅▅') + (false?'&emsp;'+benGuaNaJia[i]:'') + '&emsp;' + (yao[i]===0?'〇':(yao[i]===3?'✖':'&emsp;')) }}</p>
-    </el-col>
-    <el-col>
-      <p class="pFont">{{bianGuaName.slice(3)}}&emsp;&emsp;</p>
-      <p class="pFont" v-for="(j, i) in 6">{{ (yao[i]===0||yao[i]===3)?bianGuaLiuQin[i]:'&emsp;&emsp;' + '&emsp;' + (bianGua[i]?'▅▅▅▅▅':'▅▅&emsp;▅▅') + '&emsp;' + bianGuaNaJia[i] }}</p>
-    </el-col>
-  </el-row>
+  <div class="header">
+    <select v-model="yao[5]">
+      <option disabled value="-1">第一次</option>
+      <option v-for="i in 4" :value="i-1">{{i-1}} 字</option>
+    </select>
+    <select v-model="yao[4]" :disabled="yao[5]<0">
+      <option disabled value="-1">第二次</option>
+      <option v-for="i in 4" :value="i-1">{{i-1}} 字</option>
+    </select>
+    <select v-model="yao[3]" :disabled="yao[4]<0">
+      <option disabled value="-1">第三次</option>
+      <option v-for="i in 4" :value="i-1">{{i-1}} 字</option>
+    </select>
+    <select v-model="yao[2]" :disabled="yao[3]<0">
+      <option disabled value="-1">第四次</option>
+      <option v-for="i in 4" :value="i-1">{{i-1}} 字</option>
+    </select>
+    <select v-model="yao[1]" :disabled="yao[2]<0">
+      <option disabled value="-1">第五次</option>
+      <option v-for="i in 4" :value="i-1">{{i-1}} 字</option>
+    </select>
+    <select v-model="yao[0]" :disabled="yao[1]<0" @change="main()">
+      <option disabled value="-1">第六次</option>
+      <option v-for="i in 4" :value="i-1">{{i-1}} 字</option>
+    </select>
+  </div>
+  <div style="display:flex; margin-left: 10px" v-show="yao[0]>=0">
+    <div>
+      <p>{{benGuaName.slice(3)}}&emsp;</p>
+      <p v-for="(j, i) in 6">
+        {{ shiYing[i] || '&emsp;' }}&nbsp;
+        {{ benGuaLiuQin[i] }}&nbsp;
+        {{ benGua[i] ? '▅▅▅▅▅' : '▅▅&emsp;▅▅' }}&nbsp;
+        {{ benGuaNaJia[i] }}&nbsp;
+        {{ yao[i] === 0 ? '〇' : (yao[i]===3?'✖':'&emsp;') }}&nbsp;
+      </p>
+    </div>
+    <div>
+      <p>{{bianGuaName.slice(3)}}&emsp;</p>
+      <p v-for="(j, i) in 6">
+        {{ yao[i]===0 || yao[i]===3 ? bianGuaLiuQin[i] : '&emsp;&emsp;' }}&nbsp;
+        {{ bianGua[i] ? '▅▅▅▅▅' : '▅▅&emsp;▅▅' }}&nbsp;
+        {{ bianGuaNaJia[i] }}
+      </p>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -56,8 +72,6 @@ const bianGua = ref([])
 const bianGuaLiuQin = ref([])
 const bianGuaNaJia = ref([])
 const bianGuaName = ref('')
-const dialogMark = ref()
-const dialogVisible = ref(false)
 const shiYing = ref(['', '', '', '', '', ''])
 const yao = ref([-1, -1, -1, -1, -1, -1])
 
@@ -112,7 +126,14 @@ const NA_JIA = {
 </script>
 
 <style scoped>
-p.pFont {
+.header {
+  select, button, span {
+    margin: 10px;
+    font-size: 18px;
+  }
+}
+
+p {
     color: black;
     font-size: 20px;
     font-weight: bold;

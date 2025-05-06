@@ -133,6 +133,7 @@ const SHEN_Z = ['符', '蛇', '阴', '合', '虎', '武', '地', '天']
         font-size: 18px;
     }
 }
+
 .pan {
     display: flex;
     flex-wrap: wrap;
@@ -143,6 +144,7 @@ const SHEN_Z = ['符', '蛇', '阴', '合', '虎', '武', '地', '天']
     margin: 10px 2.5vw;
     font-size: 18px;
 }
+
 .gong {
     display: flex;
     flex: 1 1 32%;
@@ -150,6 +152,7 @@ const SHEN_Z = ['符', '蛇', '阴', '合', '虎', '武', '地', '天']
     height: 33%;
     border: 1px solid;
 }
+
 .inner {
     border: 0;
     align-items: center;

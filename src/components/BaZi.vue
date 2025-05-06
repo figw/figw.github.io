@@ -214,12 +214,15 @@ p, input {
     text-align: center;
     font-weight: bold;
 }
+
 p.sml, input {
     font-size: 20px;
 }
+
 p.nml {
     font-size: 30px;
 }
+
 p.big {
     font-size: 50px;
 }

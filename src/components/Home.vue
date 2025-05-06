@@ -79,6 +79,7 @@ function getSuggest(queryString, callback) {
     script.src = suggestApi + encodeURIComponent(queryString)
     document.head.appendChild(script)
 }
+
 function runSearch(searchEngineUrl) {
     const url = (searchEngineUrl || searchEngineConfig[0].search) + encodeURIComponent(searchInput.value)
     return window.open(url, '_blank')
@@ -89,6 +90,7 @@ function runSearch(searchEngineUrl) {
 .btn {
     margin-top: 20px;
 }
+
 .search {
     width: 100%;
     text-align: center;
