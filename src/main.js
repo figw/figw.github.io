@@ -6,7 +6,6 @@ import ElementPlus from 'element-plus'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import App from './App.vue'
 import BaZi from './components/BaZi.vue'
-import Fireworks from './components/Fireworks.vue'
 import Home from './components/Home.vue'
 import LiuYao from './components/LiuYao.vue'
 import QiMen from "./components/QiMen.vue";
@@ -15,10 +14,6 @@ const routes = [
     {
         path: '/',
         component: Home,
-    },
-    {
-        path: '/fireworks',
-        component: Fireworks,
     },
     {
         path: '/bazi',
