@@ -27,7 +27,7 @@
   </div>
   <div style="display:flex; margin-left: 10px" v-show="yao[0]>=0">
     <div>
-      <p>{{benGuaName.slice(3)}}&emsp;</p>
+      <p>{{benGuaName[0] === benGuaName[1] ? benGuaName.substring(2) : benGuaName}}&emsp;</p>
       <p v-for="(j, i) in 6">
         {{ shiYing[i] || '&emsp;' }}&nbsp;
         {{ benGuaLiuQin[i] }}&nbsp;
@@ -37,7 +37,7 @@
       </p>
     </div>
     <div>
-      <p>{{bianGuaName.slice(3)}}&emsp;</p>
+      <p>{{bianGuaName[0] === bianGuaName[1] ? bianGuaName.substring(2) : bianGuaName}}&emsp;</p>
       <p v-for="(j, i) in 6">
         {{ yao[i]===0 || yao[i]===3 ? bianGuaLiuQin[i] : '&emsp;&emsp;' }}&nbsp;
         {{ bianGua[i] ? '▅▅▅▅▅' : '▅▅&emsp;▅▅' }}&nbsp;
@@ -49,18 +49,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import { BA_GUA_MAP, WU_XING } from '../assets/constant.js'
+import { BA_GUA_2_YAO, BA_GUA_2_ALIAS, GUA_64, WU_XING } from '../assets/constant.js'
 
-const gua64 = [
-    '乾乾-乾卦', '乾巽-天风姤', '乾艮-天山遁', '乾坤-天地否', '巽坤-风地观', '艮坤-山地剥', '离坤-火地晋', '离乾-火天大有',
-    '坎坎-坎卦', '坎兑-水泽节', '坎震-水雷屯', '坎离-水火既济', '兑离-泽火革', '震离-雷火丰', '坤离-地火明夷', '坤坎-地水师',
-    '艮艮-艮卦', '艮离-山火贲', '艮乾-山天大畜', '艮兑-山泽损', '离兑-火泽睽', '乾兑-天泽履', '巽兑-风泽中孚', '巽艮-风山渐',
-    '震震-震卦', '震坤-雷地豫', '震坎-雷水解', '震巽-雷风恒', '坤巽-地风升', '坎巽-水风井', '兑巽-泽风大过', '兑震-泽雷随',
-    '巽巽-巽卦', '巽乾-风天小畜', '巽离-风火家人', '巽震-风雷益', '乾震-天雷无妄', '离震-火雷噬嗑', '艮震-山雷颐', '艮巽-山风蛊',
-    '离离-离卦', '离艮-火山旅', '离巽-火风鼎', '离坎-火水未济', '艮坎-山水蒙', '巽坎-风水涣', '乾坎-天水讼', '乾离-天火同人',
-    '坤坤-坤卦', '坤震-地雷复', '坤兑-地泽临', '坤乾-地天泰', '震乾-雷天大壮', '兑乾-泽天夬', '坎乾-水天需', '坎坤-水地比',
-    '兑兑-兑卦', '兑坎-泽水困', '兑坤-泽地萃', '兑艮-泽山咸', '坎艮-水山蹇', '坤艮-地山谦', '震艮-雷山小过', '震兑-雷泽归妹',
-]
 const benGua = ref([])
 const benGuaLiuQin = ref([])
 const benGuaNaJia = ref([])
@@ -75,6 +65,7 @@ const yao = ref([-1, -1, -1, -1, -1, -1])
 function main() {
     benGua.value = []
     bianGua.value = []
+    shiYing.value = ['', '', '', '', '', '']
     for (const i of yao.value) {
         if (i === -1) return
         else if (i === 0) { benGua.value.push(1); bianGua.value.push(0) }
@@ -82,24 +73,24 @@ function main() {
         else if (i === 2) { benGua.value.push(1); bianGua.value.push(1) }
         else if (i === 3) { benGua.value.push(0); bianGua.value.push(1) }
     }
-    const benShangGua = BA_GUA_MAP[benGua.value.slice(0, 3).join('')]
-    const benXiaGua = BA_GUA_MAP[benGua.value.slice(3, 6).join('')]
-    const bianShangGua = BA_GUA_MAP[bianGua.value.slice(0, 3).join('')]
-    const bianXiaGua = BA_GUA_MAP[bianGua.value.slice(3, 6).join('')]
-    const guaGongIndex = gua64.findIndex(i => i.indexOf(benShangGua + benXiaGua) === 0)
-    const guaGongWuXing = WU_XING[gua64[guaGongIndex - guaGongIndex % 8][0]]
+    const benShangGua = BA_GUA_2_YAO[benGua.value.slice(0, 3).join('')]
+    const benXiaGua = BA_GUA_2_YAO[benGua.value.slice(3, 6).join('')]
+    const bianShangGua = BA_GUA_2_YAO[bianGua.value.slice(0, 3).join('')]
+    const bianXiaGua = BA_GUA_2_YAO[bianGua.value.slice(3, 6).join('')]
+    const guaGongIndex = GUA_64.findIndex(i => i.indexOf(BA_GUA_2_ALIAS[benShangGua] + BA_GUA_2_ALIAS[benXiaGua]) === 0)
+    const guaGongWuXing = WU_XING[GUA_64[guaGongIndex - guaGongIndex % 8][0]]
     switch (guaGongIndex % 8) {
         case 0: shiYing.value[0] = '世'; shiYing.value[3] = '应'; break
-        case 1: shiYing.value[5] = '世'; shiYing.value[2] = '应'; break
-        case 2: shiYing.value[4] = '世'; shiYing.value[1] = '应'; break
+        case 1: shiYing.value[3] = '世'; shiYing.value[0] = '应'; break
+        case 2: shiYing.value[1] = '世'; shiYing.value[4] = '应'; break
         case 3: shiYing.value[3] = '世'; shiYing.value[0] = '应'; break
         case 4: shiYing.value[2] = '世'; shiYing.value[5] = '应'; break
-        case 5: shiYing.value[1] = '世'; shiYing.value[4] = '应'; break
-        case 6: shiYing.value[2] = '世'; shiYing.value[5] = '应'; break
-        case 7: shiYing.value[3] = '世'; shiYing.value[0] = '应'; break
+        case 5: shiYing.value[5] = '世'; shiYing.value[2] = '应'; break
+        case 6: shiYing.value[4] = '世'; shiYing.value[1] = '应'; break
+        case 7: shiYing.value[2] = '世'; shiYing.value[5] = '应'; break
     }
-    benGuaName.value = gua64.find(i => i.indexOf(benShangGua + benXiaGua) === 0)
-    bianGuaName.value = gua64.find(i => i.indexOf(bianShangGua + bianXiaGua) === 0)
+    benGuaName.value = GUA_64.find(i => i.indexOf(BA_GUA_2_ALIAS[benShangGua] + BA_GUA_2_ALIAS[benXiaGua]) === 0)
+    bianGuaName.value = GUA_64.find(i => i.indexOf(BA_GUA_2_ALIAS[bianShangGua] + BA_GUA_2_ALIAS[bianXiaGua]) === 0)
     benGuaNaJia.value = [NA_JIA[benShangGua][5], NA_JIA[benShangGua][4], NA_JIA[benShangGua][3], NA_JIA[benXiaGua][2], NA_JIA[benXiaGua][1], NA_JIA[benXiaGua][0]]
     bianGuaNaJia.value = [NA_JIA[bianShangGua][5], NA_JIA[bianShangGua][4], NA_JIA[bianShangGua][3], NA_JIA[bianXiaGua][2], NA_JIA[bianXiaGua][1], NA_JIA[bianXiaGua][0]]
     benGuaLiuQin.value = benGuaNaJia.value.map(i => LIU_QIN[guaGongWuXing][i[2]])

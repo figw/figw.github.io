@@ -17,7 +17,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { BA_GUA, BA_GUA_MAP, DI_ZHI } from '../assets/constant.js'
+import { BA_GUA, BA_GUA_2_YAO, BA_GUA_2_ALIAS, GUA_64, DI_ZHI } from '../assets/constant.js'
 
 const shangGua = ref('')
 const xiaGua = ref('')
