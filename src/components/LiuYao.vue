@@ -33,7 +33,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { LIU_QIN, NA_JIA, WU_XING } from '../assets/constant.js'
+import { WU_XING } from '../assets/constant.js'
 
 const gua8 = {
     '111': '乾', '010': '坎', '100': '艮', '001': '震', '110': '巽', '101': '离', '000': '坤', '011': '兑'
@@ -48,7 +48,6 @@ const gua64 = [
     '坤坤-坤卦', '坤震-地雷复', '坤兑-地泽临', '坤乾-地天泰', '震乾-雷天大壮', '兑乾-泽天夬', '坎乾-水天需', '坎坤-水地比',
     '兑兑-兑卦', '兑坎-泽水困', '兑坤-泽地萃', '兑艮-泽山咸', '坎艮-水山蹇', '坤艮-地山谦', '震艮-雷山小过', '震兑-雷泽归妹',
 ]
-const naJia = NA_JIA
 const benGua = ref([])
 const benGuaLiuQin = ref([])
 const benGuaNaJia = ref([])
@@ -91,6 +90,24 @@ function main() {
     bianGuaNaJia.value = [NA_JIA[bianShangGua][5], NA_JIA[bianShangGua][4], NA_JIA[bianShangGua][3], NA_JIA[bianXiaGua][2], NA_JIA[bianXiaGua][1], NA_JIA[bianXiaGua][0]]
     benGuaLiuQin.value = benGuaNaJia.value.map(i => LIU_QIN[guaGongWuXing][i[2]])
     bianGuaLiuQin.value = bianGuaNaJia.value.map(i => LIU_QIN[guaGongWuXing][i[2]])
+}
+
+const LIU_QIN = {
+  '木': { '木': '兄弟', '火': '子孙', '土': '妻财', '金': '官鬼', '水': '父母' },
+  '火': { '木': '父母', '火': '兄弟', '土': '子孙', '金': '妻财', '水': '官鬼' },
+  '土': { '木': '官鬼', '火': '父母', '土': '兄弟', '金': '子孙', '水': '妻财' },
+  '金': { '木': '妻财', '火': '官鬼', '土': '父母', '金': '兄弟', '水': '子孙' },
+  '水': { '木': '子孙', '火': '妻财', '土': '官鬼', '金': '父母', '水': '兄弟' },
+}
+const NA_JIA = {
+  '乾': ['甲子水', '甲寅木', '甲辰土', '壬午火', '壬申金', '壬戌土'],
+  '坎': ['戊寅木', '戊辰土', '戊午火', '戊申金', '戊戌土', '戊子水'],
+  '艮': ['丙辰土', '丙午火', '丙申金', '丙戌土', '丙子水', '丙寅木'],
+  '震': ['庚子水', '庚寅木', '庚辰土', '庚午火', '庚申金', '庚戌土'],
+  '巽': ['辛丑土', '辛亥水', '辛酉金', '辛未土', '辛巳火', '辛卯木'],
+  '离': ['己卯木', '己丑土', '己亥水', '己酉金', '己未土', '己巳火'],
+  '坤': ['乙未土', '乙巳火', '乙卯木', '癸丑土', '癸亥水', '癸酉金'],
+  '兑': ['丁巳火', '丁卯木', '丁丑土', '丁亥水', '丁酉金', '丁未土'],
 }
 </script>
 

@@ -83,21 +83,13 @@
 <script setup>
 import { computed, ref, watch } from 'vue'
 import {
-    CANG_GAN,
-    DI_ZHI,
+    TIAN_GAN, YANG_GAN, YIN_GAN,
+    DI_ZHI, YANG_ZHI, YIN_ZHI,
     JIA_ZI,
-    SHI_SHEN,
-    TIAN_GAN,
-    WU_XING_COLOR,
-    WU_XING,
-    YANG_GAN,
-    YANG_ZHI,
-    YIN_GAN,
-    YIN_ZHI,
+    WU_XING, WU_XING_COLOR,
 } from '../assets/constant.js'
 
 const nianGan = ref(''), nianZhi = ref(''), yueGan = ref(''), yueZhi = ref(''), riGan = ref(''), riZhi = ref(''), shiGan = ref(''), shiZhi = ref('')
-// const nianGan = ref('甲'), nianZhi = ref('子'), yueGan = ref('丙'), yueZhi = ref('寅'), riGan = ref('戊'), riZhi = ref('辰'), shiGan = ref('庚'), shiZhi = ref('午')
 
 const nianGanShen = computed(() => riGan.value && nianGan.value && SHI_SHEN[riGan.value][nianGan.value])
 const yueGanShen = computed(() => riGan.value && yueGan.value && SHI_SHEN[riGan.value][yueGan.value])
@@ -140,12 +132,14 @@ function changeQiYunAge(index) {
     if (index === 1) qiYunAge.value++
     else if (index === 0 && qiYunAge.value > -1) qiYunAge.value--
 }
+
 function clearAll() {
     nianGan.value = nianZhi.value = yueGan.value = yueZhi.value = riGan.value = riZhi.value = shiGan.value = shiZhi.value = ''
     note.value = ''
     qiYunAge.value = -1
     sex.value = 0
 }
+
 function clickGanZhi(name) {
     switch (name) {
         case 'nianGan':
@@ -160,6 +154,7 @@ function clickGanZhi(name) {
     changing.value = name
     showSelectDialog.value = true
 }
+
 function generateDaYun() {
     const times = 6
     if (sex.value === 0 || !nianGan.value || !yueGan.value || !yueZhi.value) return daYunList.value = []
@@ -168,6 +163,7 @@ function generateDaYun() {
     const index = jiaZiList.findIndex(i => i === yueGan.value + yueZhi.value)
     daYunList.value = jiaZiList.slice(index + 1, index + 1 + times)
 }
+
 function generateLiuNian() {
     const times = 69
     if (!nianGan.value || !nianZhi.value) return liuNianList.value = []
@@ -175,11 +171,40 @@ function generateLiuNian() {
     const index = jiaZiList.findIndex(i => i === nianGan.value + nianZhi.value)
     liuNianList.value = jiaZiList.slice(index, index + times)
 }
+
 function getColor(key) {
     return WU_XING_COLOR[WU_XING[key]] && 'color:' + WU_XING_COLOR[WU_XING[key]]
 }
+
 function isSameYinYang(gan, zhi) {
     return (YANG_GAN.includes(gan) && YANG_ZHI.includes(zhi)) || (YIN_GAN.includes(gan) && YIN_ZHI.includes(zhi))
+}
+
+const CANG_GAN = {
+  '子': ['癸'],
+  '丑': ['己', '癸', '辛'],
+  '寅': ['甲', '丙', '戊'],
+  '卯': ['乙'],
+  '辰': ['戊', '乙', '癸'],
+  '巳': ['丙', '庚', '戊'],
+  '午': ['丁', '己'],
+  '未': ['己', '丁', '乙'],
+  '申': ['庚', '壬', '戊'],
+  '酉': ['辛'],
+  '戌': ['戊', '辛', '丁'],
+  '亥': ['壬', '甲'],
+}
+const SHI_SHEN = {
+  '甲': { '甲': '比', '乙': '劫', '丙': '食', '丁': '伤', '戊': '才', '己': '财', '庚': '杀', '辛': '官', '壬': '枭', '癸': '印' },
+  '乙': { '甲': '劫', '乙': '比', '丙': '伤', '丁': '食', '戊': '财', '己': '才', '庚': '官', '辛': '杀', '壬': '印', '癸': '枭' },
+  '丙': { '甲': '枭', '乙': '印', '丙': '比', '丁': '劫', '戊': '食', '己': '伤', '庚': '才', '辛': '财', '壬': '杀', '癸': '官' },
+  '丁': { '甲': '印', '乙': '枭', '丙': '劫', '丁': '比', '戊': '伤', '己': '食', '庚': '财', '辛': '才', '壬': '官', '癸': '杀' },
+  '戊': { '甲': '杀', '乙': '官', '丙': '枭', '丁': '印', '戊': '比', '己': '劫', '庚': '食', '辛': '伤', '壬': '才', '癸': '财' },
+  '己': { '甲': '官', '乙': '杀', '丙': '印', '丁': '枭', '戊': '劫', '己': '比', '庚': '伤', '辛': '食', '壬': '财', '癸': '才' },
+  '庚': { '甲': '才', '乙': '财', '丙': '杀', '丁': '官', '戊': '枭', '己': '印', '庚': '比', '辛': '劫', '壬': '食', '癸': '伤' },
+  '辛': { '甲': '财', '乙': '才', '丙': '官', '丁': '杀', '戊': '印', '己': '枭', '庚': '劫', '辛': '比', '壬': '伤', '癸': '食' },
+  '壬': { '甲': '食', '乙': '伤', '丙': '才', '丁': '财', '戊': '杀', '己': '官', '庚': '枭', '辛': '印', '壬': '比', '癸': '劫' },
+  '癸': { '甲': '伤', '乙': '食', '丙': '财', '丁': '才', '戊': '官', '己': '杀', '庚': '印', '辛': '枭', '壬': '劫', '癸': '比' },
 }
 </script>
 
